@@ -1,3 +1,2 @@
-import rootBG from "./RootBG.svg";
-
-export { rootBG };
+import rootBGPng from "./rootBG.png";
+export { rootBGPng };

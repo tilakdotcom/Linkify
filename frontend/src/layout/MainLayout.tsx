@@ -1,3 +1,4 @@
+import { rootBGPng } from "@/assets";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -7,7 +8,15 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
 
 export default function MainLayout() {
   return (
-    <main>
+    <main
+      className={`relative overflow-hidden bg-cover `}
+      style={{
+        backgroundImage: `url(${rootBGPng})`,
+        height: "100vh",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
       <RootLayout>
         <Outlet />
       </RootLayout>

@@ -1,6 +1,8 @@
 import LinkShortner from "@/components/app-ui/LinkShortner";
 import Container from "@/components/common/Container";
 import GradientText from "@/components/common/GradientText";
+import { GoQuestion } from "react-icons/go";
+import { IoArrowDownSharp } from "react-icons/io5";
 
 export default function HomePage() {
   return (
@@ -8,7 +10,7 @@ export default function HomePage() {
       <Container>
         {/* hero section */}
         <section
-          id="home"
+          id="hero"
           className="flex flex-col items-center justify-center space-y-6"
         >
           <GradientText className="md:text-5xl text-3xl font-bold text-center tracking-wide max-w-4xl leading-[1.2] pb-0">
@@ -21,6 +23,26 @@ export default function HomePage() {
           </p>
           {/* link shortner  */}
           <LinkShortner />
+          {/* inform */}
+          <p className="text-gray-400 text-[13.5px] font-normal text-center max-w-2xl flex gap-x-1 items-center">
+            You can create{" "}
+            <span className="font-bold text-pink-600 text-[14px]"> 05 </span>{" "}
+            more links. Register Now to enjoy unlimited usages{" "}
+            <GoQuestion title="These rules are important" />
+          </p>
+        </section>
+
+        {/* example links */}
+        <section
+          id="try"
+          className="flex flex-col items-center justify-center py-5"
+        >
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <p> Try our Shorten links </p>
+            <span>
+              <IoArrowDownSharp className="size-6 animate-bounce "/>
+            </span>
+          </div>
         </section>
       </Container>
     </>

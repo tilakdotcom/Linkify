@@ -1,3 +1,4 @@
+import { DataTable } from "@/components/app-ui/DataTable";
 import LinkShortner from "@/components/app-ui/LinkShortner";
 import Container from "@/components/common/Container";
 import GradientText from "@/components/common/GradientText";
@@ -35,13 +36,16 @@ export default function HomePage() {
         {/* example links */}
         <section
           id="try"
-          className="flex flex-col items-center justify-center py-5"
+          className="flex flex-col py-5"
         >
           <div className="flex flex-col items-center justify-center space-y-2">
             <p> Try our Shorten links </p>
             <span>
-              <IoArrowDownSharp className="size-6 animate-bounce "/>
+              <IoArrowDownSharp className="size-6 animate-bounce " />
             </span>
+          </div>
+          <div className="">
+            <DataTable />
           </div>
         </section>
       </Container>

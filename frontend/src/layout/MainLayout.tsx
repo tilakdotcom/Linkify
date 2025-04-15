@@ -4,21 +4,22 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
-  return <>
-  <Header />
-  {children}
-  
-  
-  </>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }
 
 export default function MainLayout() {
   return (
     <main
-      className={`relative overflow-hidden bg-cover `}
+      className={`relative overflow-hidden bg-cover  `}
       style={{
         backgroundImage: `url(${rootBGPng})`,
-        height: "100vh",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}

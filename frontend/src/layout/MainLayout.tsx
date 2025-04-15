@@ -1,5 +1,5 @@
 import { rootBGPng } from "@/assets";
-import Header from "@/components/common/Header";
+import Header from "@/components/app-ui/Header";
 import React from "react";
 import { Outlet } from "react-router-dom";
 

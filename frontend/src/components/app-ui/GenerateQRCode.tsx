@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/common/lib/utils";
 import QRCode from "react-qr-code";
 
 interface QRCodeTypes {

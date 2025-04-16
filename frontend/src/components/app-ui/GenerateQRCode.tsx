@@ -6,7 +6,6 @@ interface QRCodeTypes {
   size?: number;
   fgColor?: string;
   bgColor?: string;
-  level?: "L" | "M" | "H" | "Q";
   className?: string;
 }
 
@@ -14,7 +13,6 @@ export default function GenerateQRCode({
   value,
   bgColor,
   fgColor,
-  level,
   size,
   className,
   ...rest
@@ -25,9 +23,9 @@ export default function GenerateQRCode({
         className={cn("", className)}
         bgColor={bgColor}
         fgColor={fgColor}
-        level={level}
         size={size}
         value={value}
+        level="M"
         {...rest}
       />
     </div>

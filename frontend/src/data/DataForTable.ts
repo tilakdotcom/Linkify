@@ -49,7 +49,6 @@ export const tableDataForHome = [
   },
 ];
 
-
 export const TableColumns = [
   { name: "Short Link" },
   { name: "Original Link" },

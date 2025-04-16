@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TableColumns, tableDataForHome } from "@/data/DataForTable";
+import { TableColumns, tableDataForHome } from "@/common/data/DataForTable";
 import { TbCopy, TbCopyCheck } from "react-icons/tb";
 import { useState } from "react";
 import { ShowQR } from "./ShowQR";

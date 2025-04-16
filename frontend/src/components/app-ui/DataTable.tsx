@@ -7,9 +7,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TableColumns, tableDataForHome } from "@/data/DataForTable";
-import GenerateQRCode from "./GenerateQRCode";
 import { TbCopy, TbCopyCheck } from "react-icons/tb";
 import { useState } from "react";
+import { ShowQR } from "./ShowQR";
 
 export function DataTable() {
   const [copied, setCopied] = useState<string>("");
@@ -54,14 +54,12 @@ export function DataTable() {
                 )}
               </TableCell>
 
-              <TableCell>{data["Original Link"]}</TableCell>
               <TableCell>
-                {
-                  <GenerateQRCode
-                    className="size-6 md:size-10"
-                    value={data["QR Code"]}
-                  />
-                }
+                {data["Original Link"].substring(0, 50)}
+                {data["Original Link"].length > 50 ? "..." : ""}
+              </TableCell>
+              <TableCell>
+                <ShowQR qrCodeUrl={data["Short Link"]} />
               </TableCell>
               <TableCell>{data["Clicks"]}</TableCell>
               <TableCell>{data["Status"]}</TableCell>

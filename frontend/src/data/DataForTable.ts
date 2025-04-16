@@ -9,7 +9,7 @@ export const tableDataForHome = [
   },
   {
     "Short Link": "https://sho.rt/xyz789",
-    "Original Link": "https://youtube.com/watch?v=xyz",
+    "Original Link": "https://youtube.com/watch?v=xyrtwertertwertwertewrtewrtewrtertewrtewrteertertertrewrtewrtertz",
     "QR Code": "https://sho.rt/qr/xyz789.png",
     Clicks: 109,
     Status: "Inactive",

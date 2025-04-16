@@ -8,10 +8,9 @@ import {
 } from "@/components/ui/table";
 import { TableColumns, tableDataForHome } from "@/data/DataForTable";
 
-
 export function DataTable() {
   return (
-    <div className="max-w-4xl mx-auto md:mt-10 mt-7">
+    <div className="max-w-5xl mx-auto md:mt-10 mt-7">
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-800 hover:bg-gray-800 ">

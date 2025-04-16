@@ -1,2 +1,9 @@
 import rootBGPng from "./rootBG.png";
-export { rootBGPng };
+import signupImage from "./signupImage.png"
+
+
+
+
+
+
+export { rootBGPng , signupImage };

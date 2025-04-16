@@ -5,12 +5,18 @@ interface CustomButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
+  navigateTo?: () => void;
 }
-export function CustomButtonBlue({ children, className }: CustomButtonProps) {
+export function CustomButtonBlue({
+  children,
+  className,
+  navigateTo,
+}: CustomButtonProps) {
   return (
     <button
+      onClick={navigateTo}
       className={cn(
-        "bg-gradient-to-r from-blue-700 to-blue-800 text-white/80   py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out cursor-pointer hover:text-white  text-sm md:text-base flex items-center gap-1",
+        "bg-gradient-to-r from-blue-600 to-blue-700 bg-blue-600 hover:bg-blue-700 text-white  py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out cursor-pointer  text-sm md:text-base flex items-center gap-1",
         className
       )}
     >

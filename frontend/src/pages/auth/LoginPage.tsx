@@ -17,12 +17,10 @@ import Container from "@/components/common/Container";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { loginUser } from "@/store/auth/authSlice";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const { isLoading } = useTypeSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -40,11 +38,10 @@ export default function LoginPage() {
     );
 
     // Handle the response here if needed
-    if (response.meta.requestStatus === "fulfilled") {
-      toast.success("Login successful! redirecting to Home...");
-      navigate("/login");
-    } else {
-      toast.error("Login failed. Please try again.");
+    if (loginUser.fulfilled.match(response)) {
+      toast.success("Login successful!");
+    } else if (loginUser.rejected.match(response)) {
+      toast.error("Login failed. Please check your credentials and try again.");
     }
   }
 

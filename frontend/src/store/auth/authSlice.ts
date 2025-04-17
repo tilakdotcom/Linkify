@@ -1,38 +1,38 @@
 import { registerUserRequest, loginUserRequest } from "@/common/lib/EndPoint";
-import { UserType } from "@/common/types/user";
+import {
+  initialStateProps,
+  loginUserProps,
+  registerUserProps,
+} from "@/common/types/authSlice";
 import API from "@/config/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-type loginUserProps = {
-  email: string;
-  password: string;
-};
-
 export const loginUser = createAsyncThunk(
   "loginUser/Data",
-  async (formData: loginUserProps) => {
+  async (formData: loginUserProps, { rejectWithValue }) => {
     try {
       const response = await API.post(loginUserRequest, formData);
+
+      // handle empty response
+      if (!response.data.success) {
+        return rejectWithValue("Invalid credentials");
+      }
 
       return response.data;
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
+        return rejectWithValue(error.message);
       } else {
-        console.log("error in login user");
+        return rejectWithValue("error in Login user");
       }
     }
   }
 );
-type registerUserProps = {
-  email: string;
-  password: string;
-  avatar: File | null;
-};
 
 export const registerUser = createAsyncThunk(
   "registerUser/Data",
-  async (formData: registerUserProps) => {
+  async (formData: registerUserProps, { rejectWithValue }) => {
     try {
       const response = await API.post(registerUserRequest, formData, {
         headers: {
@@ -40,25 +40,21 @@ export const registerUser = createAsyncThunk(
         },
       });
 
-      if (!response.data) return;
+      if (!response.data) {
+        return rejectWithValue("user already exists");
+      }
 
       return response.data;
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
+        return rejectWithValue(error.message);
       } else {
-        console.log("error in register user");
+        return rejectWithValue("error in Register user");
       }
     }
   }
 );
-
-type initialStateProps = {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  user: UserType | null;
-  error: string | null;
-};
 
 const initialState: initialStateProps = {
   isAuthenticated: false,

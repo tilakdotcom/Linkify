@@ -35,6 +35,7 @@ export const signup = asyncHandler(async (req, res) => {
   res.status(CREATED).json({
     message: "user created successfully",
     data: user,
+    success: true,
   });
 });
 
@@ -53,6 +54,7 @@ export const login = asyncHandler(async (req, res) => {
   return cooki.status(OK).json({
     message: "Logged in successfully",
     data: user,
+    success: true,
   });
 });
 
@@ -68,6 +70,7 @@ export const logout = asyncHandler(async (req, res) => {
 
   return clearAuthCookie(res).status(OK).json({
     message: "Logged out successfully",
+    success: true,
   });
 });
 
@@ -78,5 +81,6 @@ export const accessTokenRefresh = asyncHandler(async (req, res) => {
   const { accessToken } = await refreshTokenService(refreshToken);
   return setAccessTokenCookie({ res, accessToken }).status(OK).json({
     message: "Access token refreshed successfully",
+    success: true,
   });
 });

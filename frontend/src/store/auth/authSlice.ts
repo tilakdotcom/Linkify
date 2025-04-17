@@ -1,4 +1,5 @@
 import { registerUserRequest, loginUserRequest } from "@/common/lib/EndPoint";
+import { UserType } from "@/common/types/user";
 import API from "@/config/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -12,8 +13,6 @@ export const loginUser = createAsyncThunk(
   async (formData: loginUserProps) => {
     try {
       const response = await API.post(loginUserRequest, formData);
-
-      if (!response.data) return;
 
       return response.data;
     } catch (error) {
@@ -57,7 +56,7 @@ export const registerUser = createAsyncThunk(
 type initialStateProps = {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: string | null;
+  user: UserType | null;
   error: string | null;
 };
 
@@ -103,7 +102,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = true;
         // console.log("action", action.payload.data);
-        state.user = action.payload?.data;
+        state.user = action.payload.data;
         localStorage.setItem("user", JSON.stringify(state.user));
       })
       .addCase(loginUser.rejected, (state, action) => {

@@ -59,8 +59,9 @@ const authSlice = createSlice({
     },
   },
 
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
+    //register user
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -71,6 +72,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || "failled to Register user";
       });
+      
   },
 });
 

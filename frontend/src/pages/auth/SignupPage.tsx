@@ -16,11 +16,16 @@ import { signUpSchema } from "@/common/schemas/auth.schema";
 import { signupImage } from "@/assets";
 import { useState } from "react";
 import Container from "@/components/common/Container";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+import { registerUser } from "@/store/auth/authSlice";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-
-  const isLoading = false;
+  const { isLoading } = useTypeSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -31,7 +36,23 @@ export default function SignupPage() {
   });
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    console.log("data", values);
+    const response = await dispatch(
+      registerUser({
+        email: values.email,
+        password: values.password,
+        avatar: values.avatar,
+      })
+    );
+
+    // Handle the response here if needed
+    if (registerUser.fulfilled.match(response)) {
+      toast.success("Registration successful! redirecting to login...");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } else {
+      toast.error("Registration failed. Please try again.");
+    }
   }
 
   return (

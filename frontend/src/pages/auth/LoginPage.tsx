@@ -14,10 +14,15 @@ import { z } from "zod";
 import { loginSchema } from "@/common/schemas/auth.schema";
 import { signupImage } from "@/assets";
 import Container from "@/components/common/Container";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+import { loginUser } from "@/store/auth/authSlice";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-
-  const isLoading = false;
+  const { isLoading } = useTypeSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -27,7 +32,20 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log("data", values);
+    const response = await dispatch(
+      loginUser({
+        email: values.email,
+        password: values.password,
+      })
+    );
+
+    // Handle the response here if needed
+    if (response.meta.requestStatus === "fulfilled") {
+      toast.success("Login successful! redirecting to Home...");
+      navigate("/login");
+    } else {
+      toast.error("Login failed. Please try again.");
+    }
   }
 
   return (
@@ -94,8 +112,6 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-
-      
 
               {/* Submit Button */}
               <div>

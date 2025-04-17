@@ -10,34 +10,33 @@ import {
 import { BAD_REQUEST, UNAUTHORIZED } from "../../common/constants/http";
 import prisma from "../../database/dbConnect";
 
-
 type CreateUserData = {
   email: string;
   password: string;
-  username: string;
+  avatar?: string;
 };
 
 export const createUserService = async (data: CreateUserData) => {
   const userExists = await prisma.user.findFirst({
     where: { email: data.email },
-  })
+  });
 
   appAssert(!userExists, BAD_REQUEST, "user already exists");
 
-  const hashedPassword = await passwordHasher(data.password)
+  const hashedPassword = await passwordHasher(data.password);
 
   const user = await prisma.user.create({
     data: {
-      username: data.username,
       email: data.email,
       password: hashedPassword,
-    }
-  })
+      avatar: data.avatar || "",
+    },
+  });
 
-  const {password, ...rest} = user
+  const { password, ...rest } = user;
 
   return {
-    user:rest
+    user: rest,
   };
 };
 
@@ -56,16 +55,16 @@ export const loginUserService = async (data: LoginUserData) => {
   appAssert(user, BAD_REQUEST, "invalid login user details");
 
   //password check
-  const isMatch = await passwordCompare(data.password, user.password)
+  const isMatch = await passwordCompare(data.password, user.password);
   appAssert(isMatch, BAD_REQUEST, "invalid login user or password details");
 
   //create session
   const session = await prisma.session.create({
-   data: {
-     userId: user.id,
-     userAgent: data.userAgent,
-     expiresAt: thirtyDaysFromNow(),
-   },
+    data: {
+      userId: user.id,
+      userAgent: data.userAgent,
+      expiresAt: thirtyDaysFromNow(),
+    },
   });
 
   //generate tokens
@@ -88,9 +87,9 @@ export const loginUserService = async (data: LoginUserData) => {
   const updateSession = await prisma.session.update({
     where: { id: session.id },
     data: { refreshToken },
-  })
+  });
 
-  const {password, ...rest} = user
+  const { password, ...rest } = user;
 
   return {
     user: rest,
@@ -113,10 +112,10 @@ export const refreshTokenService = async (refreshToken: string) => {
       id: userId.sessionId,
       refreshToken: refreshToken,
       expiresAt: {
-        gte: Now()
+        gte: Now(),
       },
     },
-  })
+  });
 
   appAssert(
     session && session.refreshToken === refreshToken,

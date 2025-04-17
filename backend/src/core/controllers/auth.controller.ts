@@ -5,7 +5,12 @@ import {
   setAccessTokenCookie,
   setAuthCookies,
 } from "../../common/utils/cookie";
-import { BAD_REQUEST, CREATED, OK, UNAUTHORIZED } from "../../common/constants/http";
+import {
+  BAD_REQUEST,
+  CREATED,
+  OK,
+  UNAUTHORIZED,
+} from "../../common/constants/http";
 import prisma from "../../database/dbConnect";
 
 import asyncHandler from "../../middlewares/asyncHandler.middleware";
@@ -14,12 +19,18 @@ import {
   loginUserService,
   refreshTokenService,
 } from "../services/auth.service";
+import { validateFileImage } from "../../middlewares/file.middleware";
 
 //signup
 export const signup = asyncHandler(async (req, res) => {
+  console.log("data", req.body);
   const body = registerSchema.parse(req.body);
+  const { path } = validateFileImage(req.file as Express.Multer.File);
   //using services
-  const { user } = await createUserService(body);
+  const { user } = await createUserService({
+    ...body,
+    avatar: path,
+  });
 
   res.status(CREATED).json({
     message: "user created successfully",
@@ -29,7 +40,7 @@ export const signup = asyncHandler(async (req, res) => {
 
 //login
 export const login = asyncHandler(async (req, res) => {
-  const userAgent = req.headers["user-agent"]
+  const userAgent = req.headers["user-agent"];
   const body = loginSchema.parse({
     ...req.body,
     userAgent: userAgent,
@@ -51,7 +62,7 @@ export const logout = asyncHandler(async (req, res) => {
 
   const session = await prisma.session.delete({
     where: { id: sessionId },
-  })
+  });
 
   appAssert(session, BAD_REQUEST, "session not found  in the database");
 

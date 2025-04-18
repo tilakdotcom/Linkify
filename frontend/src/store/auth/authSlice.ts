@@ -1,4 +1,9 @@
-import { registerUserRequest, loginUserRequest } from "@/common/lib/EndPoint";
+import {
+  registerUserRequest,
+  loginUserRequest,
+  getUserRequest,
+  logoutUserRequest,
+} from "@/common/lib/EndPoint";
 import {
   initialStateProps,
   loginUserProps,
@@ -56,6 +61,30 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const checkAuth = createAsyncThunk("checkAuth/data", async () => {
+  try {
+    const response = await API.get(getUserRequest, {
+      headers: {
+        "Cache-Control":
+          "no-store , no-cache , must-revalidate , proxy-revalidate",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error((error as string) || "Error getting");
+  }
+});
+
+export const logoutUser = createAsyncThunk("logoutUser/data", async () => {
+  try {
+    await API.get(logoutUserRequest);
+    return;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Authentication failed");
+  }
+});
+
 const initialState: initialStateProps = {
   isAuthenticated: false,
   isLoading: false,
@@ -107,6 +136,34 @@ const authSlice = createSlice({
         state.user = null;
         localStorage.setItem("user", JSON.stringify(state.user));
         state.error = action.error.message || "failled to login user";
+      })
+      //check auth
+      .addCase(checkAuth.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = action.payload.success;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        localStorage.setItem("user", JSON.stringify(state.user));
+      })
+      //logout user
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        localStorage.setItem("user", JSON.stringify(state.user));
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "failled to logout user";
       });
   },
 });

@@ -18,7 +18,6 @@ export default function Header() {
   const handleLogin = () => {
     navigate("/login");
   };
-  console.log("auth",isAuthenticated)
 
   const handleLogout = async () => {
     try {

@@ -15,6 +15,9 @@ function App() {
   );
   const dispatch = useAppDispatch();
   const location = useLocation();
+
+  const from = location.state?.from
+
   useEffect(() => {
     if (user === null) {
       dispatch(setAuthenticated(false));
@@ -23,7 +26,6 @@ function App() {
     }
   }, [dispatch, user]);
 
-  const from = location.state?.from || "/";
 
   if (isLoading) return <Loading />;
   return (

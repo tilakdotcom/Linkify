@@ -51,7 +51,7 @@ export default function SignupPage() {
         navigate("/login");
       }, 1000);
     } else {
-      toast.error("Registration failed. Please try again.");
+      toast.error("Email already exists");
     }
   }
 

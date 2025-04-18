@@ -22,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
               background: "#333",
               color: "#fff",
               padding: "10px",
-              fontSize: "14px",
+              fontSize: "11px",
             },
           }}
         />

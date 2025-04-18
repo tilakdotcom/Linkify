@@ -21,7 +21,7 @@ function App() {
     } else {
       dispatch(checkAuth());
     }
-  }, [user, dispatch]);
+  }, [dispatch, user]);
 
   const from = location.state?.from || "/";
 

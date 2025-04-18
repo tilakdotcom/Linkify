@@ -77,8 +77,8 @@ export const checkAuth = createAsyncThunk("checkAuth/data", async () => {
 
 export const logoutUser = createAsyncThunk("logoutUser/data", async () => {
   try {
-    const response =await API.get(logoutUserRequest);
-    return response.data;
+   await API.get(logoutUserRequest);
+    return
   } catch (error) {
     console.error(error);
     throw new Error("Authentication failed");
@@ -143,7 +143,7 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = action.payload.success;
+        state.isAuthenticated = action.payload?.success;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.isLoading = false;

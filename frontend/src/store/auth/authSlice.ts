@@ -101,7 +101,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
-    isAuthenticated: (state, action) => {
+    setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
     },
   },
@@ -168,7 +168,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { isAuthenticated, setUser } = authSlice.actions;
+export const {setAuthenticated, setUser } = authSlice.actions;
 
 const authReduser = authSlice.reducer;
 

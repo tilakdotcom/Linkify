@@ -7,12 +7,13 @@ import { validateFileImage } from "../../middlewares/file.middleware";
 import {
   userAvatarService,
   userPasswordChangeService,
-  userPasswordResetRequestService
+  userPasswordResetRequestService,
 } from "../services/user.service";
 
 export const userAccessHandler = asyncHandler(async (req, res) => {
   return res.status(OK).json({
     message: "User authenticated successfully",
+    success: true,
   });
 });
 

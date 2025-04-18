@@ -32,7 +32,7 @@ export function CustomButtonGray({
   return (
     <button
       className={cn(
-        "bg-gradient-to-r from-gray-800 to-gray-900 text-white/80   py-1 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out cursor-pointer hover:text-white border-[1px] border-gray-500 text-[12px] flex items-center gap-1",
+        "bg-gradient-to-r from-gray-800 to-gray-900 text-white/80   py-1 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out cursor-pointer hover:text-white border-[1px] border-gray-500 text-[12px] flex items-center gap-1 ",
         className
       )}
       onClick={navigateTo}

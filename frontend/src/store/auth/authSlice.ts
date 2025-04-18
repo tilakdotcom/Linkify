@@ -77,8 +77,8 @@ export const checkAuth = createAsyncThunk("checkAuth/data", async () => {
 
 export const logoutUser = createAsyncThunk("logoutUser/data", async () => {
   try {
-    await API.get(logoutUserRequest);
-    return;
+    const response =await API.get(logoutUserRequest);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error("Authentication failed");

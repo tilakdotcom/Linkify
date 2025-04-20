@@ -11,12 +11,14 @@ import { TbCopy, TbCopyCheck } from "react-icons/tb";
 import { useState } from "react";
 import { ShowQR } from "./ShowQR";
 import { UserLinkTable } from "@/common/types/user";
+import { cn } from "@/common/lib/utils";
 
 type DataTableProps = {
   data: UserLinkTable[];
+  className?: string;
 };
 
-export function DataTable({ data }: DataTableProps) {
+export function DataTable({ data, className }: DataTableProps) {
   const [copied, setCopied] = useState<string>("");
   const handleOnCopy = (url: string) => {
     if (copied === url) return;
@@ -30,7 +32,7 @@ export function DataTable({ data }: DataTableProps) {
     }, 3000);
   };
   return (
-    <div className="max-w-5xl mx-auto md:mt-10 mt-7">
+    <div className={cn("max-w-5xl mx-auto md:mt-10 mt-7", className)}>
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-800 hover:bg-gray-800 ">

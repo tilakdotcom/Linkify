@@ -7,16 +7,21 @@ import LinkButton from "../common/LinkButton";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { logoutUser } from "@/store/auth/authSlice";
 import toast from "react-hot-toast";
+import { FaUserCog } from "react-icons/fa";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useTypeSelector((state) => state.auth);
+  const { isAuthenticated, user } = useTypeSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const handleRegister = () => {
     navigate("/register");
   };
   const handleLogin = () => {
     navigate("/login");
+  };
+
+  const handleToUser = () => {
+    navigate("/user");
   };
 
   const handleLogout = async () => {
@@ -41,7 +46,20 @@ export default function Header() {
         </LinkButton>
 
         {isAuthenticated && (
-          <div className="flex items-center gap-2 justify-between">
+          <div className="flex items-center md:gap-x-4 gap-x-2 justify-between">
+            <FaUserCog
+              onClick={handleToUser}
+              className="md:size-6 cursor-pointer"
+            />
+
+            <div className=" border-[1px] border-gray-500 rounded-full overflow-hidden object-cover ">
+              <img
+                src={user?.avatar}
+                alt="avatar"
+                className="size-9 rounded-full"
+              />
+            </div>
+
             <CustomButtonGray
               className="md:text-[15px] hover:to-red-500 hover:from-red-600 "
               navigateTo={handleLogout}

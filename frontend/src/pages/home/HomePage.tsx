@@ -1,3 +1,4 @@
+import { tableDataForHome } from "@/common/data/DataForTable";
 import { DataTable } from "@/components/app-ui/DataTable";
 import LinkShortner from "@/components/app-ui/LinkShortner";
 import Container from "@/components/common/Container";
@@ -45,7 +46,7 @@ export default function HomePage() {
             </span>
           </div>
           <div className="">
-            <DataTable />
+            <DataTable data={tableDataForHome} />
           </div>
         </section>
       </Container>

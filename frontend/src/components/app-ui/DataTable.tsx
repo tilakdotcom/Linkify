@@ -6,12 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TableColumns, tableDataForHome } from "@/common/data/DataForTable";
+import { TableColumns } from "@/common/data/DataForTable";
 import { TbCopy, TbCopyCheck } from "react-icons/tb";
 import { useState } from "react";
 import { ShowQR } from "./ShowQR";
+import { UserLinkTable } from "@/common/types/user";
 
-export function DataTable() {
+type DataTableProps = {
+  data: UserLinkTable[];
+};
+
+export function DataTable({ data }: DataTableProps) {
   const [copied, setCopied] = useState<string>("");
   const handleOnCopy = (url: string) => {
     if (copied === url) return;
@@ -37,33 +42,33 @@ export function DataTable() {
           </TableRow>
         </TableHeader>
         <TableBody className="bg-gray-900">
-          {tableDataForHome.map((data) => (
+          {data.map((data) => (
             <TableRow
               className="hover:bg-gray-900 bg-gray-900 text-sm"
-              key={data["Original Link"]}
+              key={data.shortLink}
             >
               <TableCell className="flex  items-center justify-start gap-x-2">
-                {data["Short Link"]}{" "}
-                {copied === data["Short Link"] ? (
+                {data.shortLink}{" "}
+                {copied === data.shortLink ? (
                   <TbCopyCheck className="md:size-5" />
                 ) : (
                   <TbCopy
-                    onClick={() => handleOnCopy(data["Short Link"])}
+                    onClick={() => handleOnCopy(data.shortLink)}
                     className="md:size-5"
                   />
                 )}
               </TableCell>
 
               <TableCell>
-                {data["Original Link"].substring(0, 50)}
-                {data["Original Link"].length > 50 ? "..." : ""}
+                {data.originalLink.substring(0, 50)}
+                {data.originalLink.length > 50 ? "..." : ""}
               </TableCell>
               <TableCell>
-                <ShowQR qrCodeUrl={data["Short Link"]} />
+                <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
-              <TableCell>{data["Clicks"]}</TableCell>
-              <TableCell>{data["Status"]}</TableCell>
-              <TableCell>{data["Date"]}</TableCell>
+              <TableCell>{data.clicks}</TableCell>
+              <TableCell>{data.status ? "Active" : "Inactive"}</TableCell>
+              <TableCell>{data.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>

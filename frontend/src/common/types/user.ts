@@ -1,3 +1,4 @@
+
 export interface UserType {
   avatar: string;
   createAt: string;
@@ -6,4 +7,13 @@ export interface UserType {
   name: string;
   updatedAt: string;
   verifiedEmail: false;
+}
+
+export interface UserLinkTable {
+  shortLink: string;
+  originalLink: string;
+  qrCode: string;
+  clicks: number;
+  status: boolean;
+  date: string;
 }

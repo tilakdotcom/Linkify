@@ -8,6 +8,7 @@ import Loading from "./components/common/Loading";
 import { useEffect } from "react";
 import { checkAuth, setAuthenticated } from "./store/auth/authSlice";
 import { CheckAuth } from "./layout/CheckAuth";
+import UserPage from "./pages/user/UserPage";
 
 function App() {
   const { isAuthenticated, isLoading, user } = useTypeSelector(
@@ -16,7 +17,7 @@ function App() {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const from = location.state?.from
+  const from = location.state?.from;
 
   useEffect(() => {
     if (user === null) {
@@ -25,7 +26,6 @@ function App() {
       dispatch(checkAuth());
     }
   }, [dispatch, user]);
-
 
   if (isLoading) return <Loading />;
   return (
@@ -40,7 +40,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/register" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/user" element={<div>user</div>} />
+            <Route path="/user" element={<UserPage />} />
           </Route>
         </Route>
       </Routes>

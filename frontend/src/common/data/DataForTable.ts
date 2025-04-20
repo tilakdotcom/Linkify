@@ -1,27 +1,30 @@
-export const tableDataForHome = [
+import { UserLinkTable } from "../types/user";
+
+export const tableDataForHome: UserLinkTable[] = [
   {
-    "Short Link": "https://sho.rt/abc123",
-    "Original Link": "https://example.com/awesome-article",
-    "QR Code": "https://sho.rt/qr/abc123.png",
-    Clicks: 245,
-    Status: "Active",
-    Date: "2025-04-15",
+    shortLink: "https://sho.rt/abc123",
+    originalLink: "https://example.com/awesome-article",
+    qrCode: "https://sho.rt/qr/abc123.png",
+    clicks: 245,
+    status: true,
+    date: "2025-04-15",
   },
   {
-    "Short Link": "https://sho.rt/xyz789",
-    "Original Link": "https://youtube.com/watch?v=xyrtwertertwertwertewrtewrtewrtertewrtewrteertertertrewrtewrtertz",
-    "QR Code": "https://sho.rt/qr/xyz789.png",
-    Clicks: 109,
-    Status: "Inactive",
-    Date: "2025-03-10",
+    shortLink: "https://sho.rt/xyz789",
+    originalLink:
+      "https://youtube.com/watch?v=xyrtwertertwertwertewrtewrtewrtertewrtewrteertertertrewrtewrtertz",
+    qrCode: "https://sho.rt/qr/xyz789.png",
+    clicks: 109,
+    status: false,
+    date: "2025-03-10",
   },
   {
-    "Short Link": "https://sho.rt/def456",
-    "Original Link": "https://linkedin.com/in/tilak",
-    "QR Code": "https://sho.rt/qr/def456.png",
-    Clicks: 580,
-    Status: "Active",
-    Date: "2025-04-01",
+    shortLink: "https://sho.rt/def456",
+    originalLink: "https://linkedin.com/in/tilak",
+    qrCode: "https://sho.rt/qr/def456.png",
+    clicks: 580,
+    status: true,
+    date: "2025-04-01",
   },
 ];
 

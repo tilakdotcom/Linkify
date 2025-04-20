@@ -3,6 +3,7 @@ import { IconType } from "react-icons/lib";
 import { RiBarChart2Fill } from "react-icons/ri";
 import { TbHandFinger } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
+import { TbBrandLinktree } from "react-icons/tb";
 
 export type userPageNavProps = {
   name: string;
@@ -10,6 +11,10 @@ export type userPageNavProps = {
 };
 
 export const userPageNav: userPageNavProps[] = [
+  {
+    name: "shortner",
+    icon: TbBrandLinktree,
+  },
   {
     name: "history",
     icon: BsClockHistory,

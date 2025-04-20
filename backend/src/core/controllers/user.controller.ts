@@ -30,6 +30,7 @@ export const userProfileImageHandler = asyncHandler(async (req, res) => {
   return res.status(OK).json({
     message: "Avatar successfully uploaded ",
     user,
+    success: true,
   });
 });
 
@@ -40,6 +41,7 @@ export const userResetPasswordHandler = asyncHandler(async (req, res) => {
 
   return res.status(OK).json({
     message: "Password reset email sent successfully ",
+    success: true,
   });
 });
 
@@ -57,5 +59,6 @@ export const userPasswordChangeHandler = asyncHandler(async (req, res) => {
   return res.status(OK).json({
     message: "Password reset successfully",
     data: user,
+    success: true,
   });
 });

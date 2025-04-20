@@ -9,6 +9,7 @@ import {
 } from "../../common/utils/jwtHelper";
 import { BAD_REQUEST, UNAUTHORIZED } from "../../common/constants/http";
 import prisma from "../../database/dbConnect";
+import uploadFileToCloudinary from "../../common/utils/cloudinary";
 
 type CreateUserData = {
   email: string;
@@ -25,11 +26,17 @@ export const createUserService = async (data: CreateUserData) => {
 
   const hashedPassword = await passwordHasher(data.password);
 
+  let uploadedImage;
+
+  if (data.avatar) {
+    uploadedImage = await uploadFileToCloudinary(data.avatar);
+  }
+
   const user = await prisma.user.create({
     data: {
       email: data.email,
       password: hashedPassword,
-      avatar: data.avatar || "",
+      avatar: uploadedImage?.secure_url || "",
     },
   });
 

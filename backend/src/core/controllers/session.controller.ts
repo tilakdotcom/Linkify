@@ -11,14 +11,15 @@ export const getSessionsHandler = asyncHandler(async (req, res) => {
 
   appAssert(sessions, NOT_FOUND, "Session not found");
 
-  return res.status(OK).json(
-    sessions.map((session) => ({
+  return res.status(OK).json({
+    session: sessions.map((session) => ({
       ...session,
       ...(session.id === req.sessionId && {
         isCurrect: true,
       }),
-    }))
-  );
+    })),
+    success: true,
+  });
 });
 
 export const deleteSessionsHandler = asyncHandler(async (req, res) => {
@@ -28,5 +29,7 @@ export const deleteSessionsHandler = asyncHandler(async (req, res) => {
 
   appAssert(session, NOT_FOUND, "session not Found or Already deleted");
 
-  return res.status(OK).json({ message: "Session deleted successfully" });
+  return res
+    .status(OK)
+    .json({ message: "Session deleted successfully", success: true });
 });

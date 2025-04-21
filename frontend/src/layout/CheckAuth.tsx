@@ -10,11 +10,11 @@ type CheckAuthProps = {
 export const CheckAuthRoot = ({
   isAuthenticated,
   children,
-  redirectPath = "/",
+  redirectPath,
 }: CheckAuthProps) => {
   const location = useLocation();
   const { pathname } = location;
-  const publicRoutes = ["/login", "/register"];
+  const publicRoutes = ["/login", "/register", "/"];
   const isOnPublicRoute = publicRoutes.includes(pathname);
   const ShouldRedirectToLogin = !isAuthenticated && !isOnPublicRoute;
   const ShouldRedirectToHome = isAuthenticated && isOnPublicRoute;
@@ -24,7 +24,7 @@ export const CheckAuthRoot = ({
   }
 
   if (ShouldRedirectToHome) {
-    return <Navigate to={redirectPath} state={{ from: pathname }} replace />;
+    return <Navigate to={redirectPath || "/user"} replace />;
   }
 
   return <>{children}</>;

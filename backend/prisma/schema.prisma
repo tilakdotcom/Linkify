@@ -68,7 +68,7 @@ model ShortLink {
 model Visitors {
   id        String   @id @default(uuid())
   shortLinkId String
-  shortLink ShortLink @relation(fields: [shortLinkId], references: [id])
+  shortLink ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
   ipAddress String
   userAgent String?
   createdAt DateTime @default(now())

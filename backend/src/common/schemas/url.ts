@@ -9,6 +9,6 @@ export const createUrlSchema = z.object({
 
 export const getUrlSchema = z.object({
   userAgent: z.string().optional(),
-  shortUrl: z.string().url(),
+  shortUrl: z.string(),
   ipAddress: z.string().optional(),
 });

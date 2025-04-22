@@ -42,11 +42,13 @@ export const createShortUrlForPublic = asyncHandler(async (req, res) => {
 });
 
 export const getShortUrl = asyncHandler(async (req, res) => {
+  const { shortUrl } = req.params;
   const body = getUrlSchema.parse({
     userAgent: req.headers["user-agent"],
-    shortUrl: req.body.shortUrl,
+    shortUrl: shortUrl,
     ipAddress: req.ip,
   });
+
   const { uri } = await getShortUrlService({
     ipAddress: body.ipAddress as string,
     shortUrl: body.shortUrl,
@@ -54,6 +56,5 @@ export const getShortUrl = asyncHandler(async (req, res) => {
   });
   res
     .status(200)
-    .json({ message: "uri found and redirecting", success: true })
     .redirect(uri.longLink);
 });

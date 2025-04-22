@@ -1,8 +1,9 @@
-import { createUrlSchema } from "../../common/schemas/url";
+import { createUrlSchema, getUrlSchema } from "../../common/schemas/url";
 import asyncHandler from "../../middlewares/asyncHandler.middleware";
 import {
   createShortUrlForPublicService,
   createShortUrlService,
+  getShortUrlService,
 } from "../services/url.service";
 
 export const createShortUrl = asyncHandler(async (req, res) => {
@@ -33,11 +34,26 @@ export const createShortUrlForPublic = asyncHandler(async (req, res) => {
     userAgent: body.userAgent as string,
     ipAddress: body.ipAddress as string,
   });
+  res.status(200).json({
+    message: "uri created successfully",
+    success: true,
+    data: createUrl,
+  });
+});
+
+export const getShortUrl = asyncHandler(async (req, res) => {
+  const body = getUrlSchema.parse({
+    userAgent: req.headers["user-agent"],
+    shortUrl: req.body.shortUrl,
+    ipAddress: req.ip,
+  });
+  const { uri } = await getShortUrlService({
+    ipAddress: body.ipAddress as string,
+    shortUrl: body.shortUrl,
+    userAgent: body.userAgent as string,
+  });
   res
     .status(200)
-    .json({
-      message: "uri created successfully",
-      success: true,
-      data: createUrl,
-    });
+    .json({ message: "uri found and redirecting", success: true })
+    .redirect(uri.longLink);
 });

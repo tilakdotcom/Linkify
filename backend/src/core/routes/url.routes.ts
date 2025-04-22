@@ -1,14 +1,13 @@
 import { Router } from "express";
-import { createShortUrlForPublic } from "../controllers/url.controller";
+import {
+  createShortUrlForPublic,
+  getShortUrl,
+} from "../controllers/url.controller";
 
-
-const router = Router()
-
+const router = Router();
 
 // routes
-router.route("/public").post(createShortUrlForPublic)
+router.route("/public").post(createShortUrlForPublic);
+router.route("/:shortUrl").post(getShortUrl);
 
-
-
-
-export default router
+export default router;

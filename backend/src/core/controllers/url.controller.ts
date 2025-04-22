@@ -7,6 +7,7 @@ import asyncHandler from "../../middlewares/asyncHandler.middleware";
 import {
   createShortUrlForPublicService,
   createShortUrlService,
+  getShortUriDataWithLimitService,
   getShortUrlService,
   removeShortUrlService,
   updateActiveStatusService,
@@ -114,5 +115,32 @@ export const updateShortUrl = asyncHandler(async (req, res) => {
     message: "uri updated successfully",
     success: true,
     data: uri,
+  });
+});
+
+export const getShortUriDataWithLimit = asyncHandler(async (req, res) => {
+  const userId = req.userId as string;
+  const { limit, page, orderByValue } = req.query as unknown as {
+    limit: number;
+    page: number;
+    orderByValue: string;
+  };
+
+  const { currentPage, shortLink, totalCount, totalPages } =
+    await getShortUriDataWithLimitService({
+      userId,
+      limit: Number(limit) || 10,
+      page: Number(page) || 1,
+      orderByValue: orderByValue || "createdAt",
+    });
+  res.status(200).json({
+    message: "uri fetched successfully",
+    success: true,
+    data: {
+      shortLink,
+      currentPage: Number(currentPage),
+      totalCount: Number(totalCount),
+      totalPages: Number(totalPages),
+    },
   });
 });

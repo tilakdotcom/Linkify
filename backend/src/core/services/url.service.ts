@@ -1,5 +1,9 @@
 import appAssert from "../../common/API/AppAssert";
-import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../../common/constants/http";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} from "../../common/constants/http";
 import { shortId } from "../../common/utils/shortId";
 import prisma from "../../database/dbConnect";
 
@@ -174,5 +178,53 @@ export const updateShortUrlService = async ({
   appAssert(uri, INTERNAL_SERVER_ERROR, "Failed to update short url");
   return {
     uri,
+  };
+};
+
+type getShortUriDataWithLimitServiceProps = {
+  userId: string;
+  limit: number;
+  page: number;
+  orderByValue: string;
+};
+
+export const getShortUriDataWithLimitService = async (
+  props: getShortUriDataWithLimitServiceProps
+) => {
+  const { userId, limit, page, orderByValue } = props;
+  const skip = (page - 1) * limit;
+
+  const allowedOrderByFields = [
+    "createdAt",
+    "clicks",
+    "updatedAt",
+    "expiresAt",
+  ];
+  appAssert(
+    allowedOrderByFields.includes(orderByValue),
+    BAD_REQUEST,
+    "Invalid order by field"
+  );
+
+  const shortLink = await prisma.shortLink.findMany({
+    where: { userId },
+    orderBy: {
+      [orderByValue]: "desc",
+    },
+    skip,
+    take: limit,
+  });
+
+  appAssert(shortLink.length > 0, NOT_FOUND, "No URI found or inactive");
+
+  const totalCount = await prisma.shortLink.count({
+    where: { userId },
+  });
+
+  return {
+    shortLink,
+    totalCount,
+    currentPage: page,
+    totalPages: Math.ceil(totalCount / limit),
   };
 };

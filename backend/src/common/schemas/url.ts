@@ -12,3 +12,9 @@ export const getUrlSchema = z.object({
   shortUrl: z.string(),
   ipAddress: z.string().optional(),
 });
+
+
+export const updateActiveStatusSchema = z.object({
+  shortUrl: z.string(),
+  isActive: z.boolean(),
+});

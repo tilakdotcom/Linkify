@@ -12,7 +12,24 @@ type createShortUrlServiceProps = {
 
 export const createShortUrlService = async (
   props: createShortUrlServiceProps
-) => {};
+) => {
+  const { longUrl, userAgent, ipAddress, userId } = props;
+
+  const createUrl = await prisma.shortLink.create({
+    data: {
+      longLink: longUrl,
+      shortLink: shortId(),
+      userAgent,
+      ipAddress,
+      userId,
+    },
+  });
+
+  appAssert(createUrl, INTERNAL_SERVER_ERROR, "Failed to create short url");
+  return {
+    createUrl,
+  };
+};
 
 export const createShortUrlForPublicService = async (
   props: createShortUrlServiceProps
@@ -63,5 +80,32 @@ export const getShortUrlService = async (props: getShortUrlServiceProps) => {
   return {
     uri: uriExists,
     visitor,
+  };
+};
+
+export const updateActiveStatusService = async (
+  shortUrl: string,
+  isActive: boolean
+) => {
+  const uriExists = await prisma.shortLink.findFirst({
+    where: {
+      shortLink: shortUrl,
+    },
+  });
+  appAssert(uriExists, NOT_FOUND, "uri is not valid or inactive");
+
+  const uri = await prisma.shortLink.update({
+    where: {
+      id: uriExists.id,
+      shortLink: shortUrl,
+    },
+    data: {
+      isActive,
+    },
+  });
+
+  appAssert(uri, INTERNAL_SERVER_ERROR, "Failed to update short url status");
+  return {
+    uri,
   };
 };

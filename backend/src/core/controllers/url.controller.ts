@@ -1,25 +1,34 @@
-import { createUrlSchema, getUrlSchema } from "../../common/schemas/url";
+import {
+  createUrlSchema,
+  getUrlSchema,
+  updateActiveStatusSchema,
+} from "../../common/schemas/url";
 import asyncHandler from "../../middlewares/asyncHandler.middleware";
 import {
   createShortUrlForPublicService,
   createShortUrlService,
   getShortUrlService,
+  updateActiveStatusService,
 } from "../services/url.service";
 
-export const createShortUrl = asyncHandler(async (req, res) => {
+export const createShortUrlForUser = asyncHandler(async (req, res) => {
   const body = createUrlSchema.parse({
     userAgent: req.headers["user-agent"],
     longUrl: req.body.longUrl,
     ipAddress: req.ip,
   });
 
-  await createShortUrlService({
+  const { createUrl } = await createShortUrlService({
     longUrl: body.longUrl,
     userAgent: body.userAgent as string,
     ipAddress: body.ipAddress as string,
     userId: req.userId,
   });
-  res.status(200).json({ message: "Server is running", success: true });
+  res.status(200).json({
+    message: "uri created successfully",
+    success: true,
+    data: createUrl,
+  });
 });
 
 export const createShortUrlForPublic = asyncHandler(async (req, res) => {
@@ -54,7 +63,19 @@ export const getShortUrl = asyncHandler(async (req, res) => {
     shortUrl: body.shortUrl,
     userAgent: body.userAgent as string,
   });
-  res
-    .status(200)
-    .redirect(uri.longLink);
+  res.status(200).redirect(uri.longLink);
+});
+
+export const updateActiveStatus = asyncHandler(async (req, res) => {
+  const { shortUrl, isActive } = updateActiveStatusSchema.parse({
+    shortUrl: req.params.shortUrl,
+    isActive: req.body.isActive,
+  });
+
+  const { uri } = await updateActiveStatusService(shortUrl, isActive);
+  res.status(200).json({
+    message: "uri updated successfully",
+    success: true,
+    data: uri,
+  });
 });

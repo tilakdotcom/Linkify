@@ -1,3 +1,3 @@
-import {nanoid}  from 'nanoid';
+import shortid from "shortid"
 
-export const shortId = () => nanoid(8);
+export const shortId = () => shortid.generate();

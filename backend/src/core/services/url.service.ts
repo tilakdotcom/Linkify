@@ -109,3 +109,70 @@ export const updateActiveStatusService = async (
     uri,
   };
 };
+
+export const removeShortUrlService = async (
+  shortUrl: string,
+  userId: string
+) => {
+  const uriExists = await prisma.shortLink.findFirst({
+    where: {
+      shortLink: shortUrl,
+      userId,
+    },
+  });
+  appAssert(uriExists, NOT_FOUND, "uri is not valid or inactive");
+
+  const uri = await prisma.shortLink.delete({
+    where: {
+      id: uriExists.id,
+      shortLink: shortUrl,
+    },
+    include: {
+      visitors: true,
+    },
+  });
+
+  appAssert(uri, INTERNAL_SERVER_ERROR, "Failed to delete short url");
+  return {
+    uri,
+  };
+};
+
+type updateShortUrlServiceProps = {
+  shortUrl: string;
+  longUrl: string;
+  userId: string;
+  userAgent: string;
+  ipAddress: string;
+};
+
+export const updateShortUrlService = async ({
+  longUrl,
+  shortUrl,
+  userId,
+}: updateShortUrlServiceProps) => {
+  const uriExists = await prisma.shortLink.findFirst({
+    where: {
+      shortLink: shortUrl,
+      userId,
+    },
+  });
+  appAssert(uriExists, NOT_FOUND, "uri is not valid or inactive");
+
+  const uri = await prisma.shortLink.update({
+    where: {
+      id: uriExists.id,
+      shortLink: shortUrl,
+    },
+    data: {
+      longLink: longUrl,
+      userAgent: uriExists.userAgent,
+      ipAddress: uriExists.ipAddress,
+    },
+  });
+
+  appAssert(uri, INTERNAL_SERVER_ERROR, "Failed to update short url");
+  return {
+    uri,
+  };
+};

@@ -8,7 +8,9 @@ import {
   createShortUrlForPublicService,
   createShortUrlService,
   getShortUrlService,
+  removeShortUrlService,
   updateActiveStatusService,
+  updateShortUrlService,
 } from "../services/url.service";
 
 export const createShortUrlForUser = asyncHandler(async (req, res) => {
@@ -73,6 +75,41 @@ export const updateActiveStatus = asyncHandler(async (req, res) => {
   });
 
   const { uri } = await updateActiveStatusService(shortUrl, isActive);
+  res.status(200).json({
+    message: "uri updated successfully",
+    success: true,
+    data: uri,
+  });
+});
+
+export const removeShortUrl = asyncHandler(async (req, res) => {
+  const { shortUrl } = req.params;
+  const userId = req.userId as string;
+
+  const { uri } = await removeShortUrlService(shortUrl, userId);
+  res.status(200).json({
+    message: "uri deleted successfully",
+    success: true,
+    data: uri,
+  });
+});
+
+export const updateShortUrl = asyncHandler(async (req, res) => {
+  const { shortUrl } = req.params;
+  const userId = req.userId as string;
+  const body = createUrlSchema.parse({
+    userAgent: req.headers["user-agent"],
+    longUrl: req.body.longUrl,
+    ipAddress: req.ip,
+  });
+
+  const { uri } = await updateShortUrlService({
+    shortUrl,
+    longUrl: body.longUrl,
+    userId,
+    userAgent: body.userAgent as string,
+    ipAddress: body.ipAddress as string,
+  });
   res.status(200).json({
     message: "uri updated successfully",
     success: true,

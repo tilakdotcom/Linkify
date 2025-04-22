@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime       @default(now()) @updatedAt
   Session       Session[]
   Verification  Verification[]
+  ShortLink     ShortLink[]
 }
 
 model Session {
@@ -44,4 +45,30 @@ model Verification {
   expiresAt DateTime         @default(now())
   createdAt DateTime         @default(now())
   updatedAt DateTime         @default(now()) @updatedAt
+}
+
+
+model ShortLink {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id])
+  shortLink String   @unique
+  longLink  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  expiresAt DateTime?
+  isActive Boolean  @default(true)
+  visitors Visitors[]
+}
+
+
+
+model Visitors {
+  id        String   @id @default(uuid())
+  shortLinkId String
+  shortLink ShortLink @relation(fields: [shortLinkId], references: [id])
+  ipAddress String
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

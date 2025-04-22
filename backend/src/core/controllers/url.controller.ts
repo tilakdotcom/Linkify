@@ -27,7 +27,7 @@ export const createShortUrlForPublic = asyncHandler(async (req, res) => {
   });
 
   
-  await createShortUrlForPublicService({
+  const {createUrl}=await createShortUrlForPublicService({
     longUrl: body.longUrl,
     userAgent: body.userAgent as string,
     ipAddress: body.ipAddress as string,

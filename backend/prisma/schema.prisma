@@ -54,6 +54,8 @@ model ShortLink {
   user      User?     @relation(fields: [userId], references: [id])
   shortLink String   @unique
   longLink  String
+  ipAddress String
+  userAgent String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   expiresAt DateTime?

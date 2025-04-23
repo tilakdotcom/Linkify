@@ -9,8 +9,11 @@ import toast from "react-hot-toast";
 import { FormProvider } from "react-hook-form";
 import { Input } from "../ui/input";
 import { FormField, FormItem, FormControl } from "../ui/form";
+import { useAppDispatch } from "@/store/store";
+import { shortenUrl } from "@/store/auth/uri";
 
 export default function LinkShortner() {
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof uriSchema>>({
     resolver: zodResolver(uriSchema),
     defaultValues: {
@@ -22,9 +25,16 @@ export default function LinkShortner() {
     formState: { errors },
   } = form;
 
-  function onSubmit(data: z.infer<typeof uriSchema>) {
+  async function onSubmit(data: z.infer<typeof uriSchema>) {
     toast.success("Shortening the URL...");
-    console.log("Submitted URL:", data.longUrl);
+    const longUrl = data.longUrl;
+    const result = await dispatch(shortenUrl(longUrl));
+    if (shortenUrl.fulfilled.match(result)) {
+      toast.success("URL shortened successfully!");
+    } else if (shortenUrl.rejected.match(result)) {
+      toast.error("Error shortening URL. Please try again.");
+    }
+    console.log("result dekh", result.payload.data.shortLink);
   }
 
   return (

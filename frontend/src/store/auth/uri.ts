@@ -40,6 +40,9 @@ const uriSlice = createSlice({
     setLongUrl(state, action: PayloadAction<string>) {
       state.longUrl = action.payload;
     },
+    setShortUrl(state, action: PayloadAction<string>) {
+      state.shortUrl = action.payload;
+    },
     clearData(state) {
       state.longUrl = "";
       state.shortUrl = "";
@@ -63,6 +66,6 @@ const uriSlice = createSlice({
   },
 });
 
-export const { setLongUrl, clearData } = uriSlice.actions;
+export const { setLongUrl, clearData, setShortUrl } = uriSlice.actions;
 const uriReduser = uriSlice.reducer;
 export default uriReduser;

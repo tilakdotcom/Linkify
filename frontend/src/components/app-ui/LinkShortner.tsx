@@ -9,11 +9,12 @@ import toast from "react-hot-toast";
 import { FormProvider } from "react-hook-form";
 import { Input } from "../ui/input";
 import { FormField, FormItem, FormControl } from "../ui/form";
-import { useAppDispatch } from "@/store/store";
-import { shortenUrl } from "@/store/auth/uri";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+import { setShortUrl, shortenUrl } from "@/store/auth/uri";
 
 export default function LinkShortner() {
   const dispatch = useAppDispatch();
+  const { shortUrl } = useTypeSelector((state) => state.uriRequest);
   const form = useForm<z.infer<typeof uriSchema>>({
     resolver: zodResolver(uriSchema),
     defaultValues: {
@@ -31,10 +32,10 @@ export default function LinkShortner() {
     const result = await dispatch(shortenUrl(longUrl));
     if (shortenUrl.fulfilled.match(result)) {
       toast.success("URL shortened successfully!");
+      dispatch(setShortUrl(result.payload?.data?.shortLink));
     } else if (shortenUrl.rejected.match(result)) {
       toast.error("Error shortening URL. Please try again.");
     }
-    console.log("result dekh", result.payload.data.shortLink);
   }
 
   return (
@@ -84,6 +85,13 @@ export default function LinkShortner() {
       <div className="text-red-500 text-xs">
         {errors.longUrl?.message && errors.longUrl.message}
         {!errors.longUrl?.message && <span>&nbsp;</span>}
+        <div className="text-white/80 text-sm -mt-1 ">
+          {shortUrl && (
+            <span className="text-green-500 font-semibold">
+              Shortened URL: {shortUrl.toString()}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

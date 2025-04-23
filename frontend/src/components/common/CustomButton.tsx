@@ -11,6 +11,7 @@ export function CustomButtonBlue({
   children,
   className,
   navigateTo,
+  type = "button",
 }: CustomButtonProps) {
   return (
     <button
@@ -19,6 +20,7 @@ export function CustomButtonBlue({
         "bg-gradient-to-r from-blue-600 to-blue-700 bg-blue-600 hover:bg-blue-700 text-white  py-1.5 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out cursor-pointer  text-[12px] flex items-center gap-1 ",
         className
       )}
+      type={type}
     >
       {children}
     </button>

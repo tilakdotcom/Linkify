@@ -2,12 +2,36 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { CustomButtonGray } from "../common/CustomButton";
 import { DataTable } from "../app-ui/DataTable";
 import { tableDataForHome } from "@/common/data/DataForTable";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+import { getShortUrls } from "@/store/auth/uri";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 export default function UserHistory() {
+  const dispatch = useAppDispatch();
+  const { userUrls } = useTypeSelector((state) => state.uriRequest);
+  const { user } = useTypeSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user != null) {
+      const fetchUriData = async () => {
+        const result = await dispatch(getShortUrls());
+        if (getShortUrls.fulfilled.match(result)) {
+          dispatch(getShortUrls(result.payload?.data?.shortLink));
+        } else if (getShortUrls.rejected.match(result)) {
+          toast.error("Errorin getting URLs. Please try again.");
+        }
+      };
+      fetchUriData();
+    }
+  }, [dispatch, user]);
+
+  
+  console.log("uri Data", userUrls[0]);
   return (
     <>
       <div className="flex justify-between items-center max-w-5xl mx-auto md:py-6 text-2xl font-semibold">
-        <span>History ({tableDataForHome.length})</span>
+        <span>History ({userUrls.length || 0})</span>
         <CustomButtonGray className="md:text-sm">
           <HiOutlineFilter />
           Filter

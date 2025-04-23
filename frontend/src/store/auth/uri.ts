@@ -1,4 +1,5 @@
 import { uriDataRequest, uriShortPublicRequest } from "@/common/lib/EndPoint";
+import { ShortLink } from "@/common/types/user";
 import API from "@/config/axios";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 // new short create
@@ -38,14 +39,14 @@ interface UriState {
   shortUrl: string;
   isLoading: boolean;
   error: string | null;
-  userUrls: []
+  userUrls: ShortLink[];
 }
 
 const initialState: UriState = {
   shortUrl: "",
   isLoading: false,
   error: null,
-  userUrls: shortLinks,
+  userUrls: [],
 };
 
 const uriSlice = createSlice({
@@ -80,7 +81,7 @@ const uriSlice = createSlice({
       })
       .addCase(getShortUrls.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.shortUrl = action.payload;
+        state.userUrls = action.payload.data.shortLink;
       })
       .addCase(getShortUrls.rejected, (state, action) => {
         state.isLoading = false;

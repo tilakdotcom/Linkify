@@ -1,7 +1,7 @@
-import { uriShortPublicRequest } from "@/common/lib/EndPoint";
+import { uriDataRequest, uriShortPublicRequest } from "@/common/lib/EndPoint";
 import API from "@/config/axios";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-
+// new short create
 export const shortenUrl = createAsyncThunk(
   "uri/shortenUrl",
   async (longUrl: string, thunkAPI) => {
@@ -19,32 +19,43 @@ export const shortenUrl = createAsyncThunk(
   }
 );
 
+// get short url data
+export const getShortUrls = createAsyncThunk("uri/getShortUrl", async () => {
+  try {
+    const response = await API.get(uriDataRequest);
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      return;
+    } else {
+      throw new Error("Error fetching short URL data");
+    }
+  }
+});
+
 interface UriState {
-  longUrl: string;
   shortUrl: string;
   isLoading: boolean;
   error: string | null;
+  userUrls: []
 }
 
 const initialState: UriState = {
-  longUrl: "",
   shortUrl: "",
   isLoading: false,
   error: null,
+  userUrls: shortLinks,
 };
 
 const uriSlice = createSlice({
   name: "uri",
   initialState,
   reducers: {
-    setLongUrl(state, action: PayloadAction<string>) {
-      state.longUrl = action.payload;
-    },
     setShortUrl(state, action: PayloadAction<string>) {
       state.shortUrl = action.payload;
     },
     clearData(state) {
-      state.longUrl = "";
       state.shortUrl = "";
       state.error = null;
     },
@@ -62,10 +73,22 @@ const uriSlice = createSlice({
       .addCase(shortenUrl.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+      })
+      .addCase(getShortUrls.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getShortUrls.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.shortUrl = action.payload;
+      })
+      .addCase(getShortUrls.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { setLongUrl, clearData, setShortUrl } = uriSlice.actions;
+export const { clearData, setShortUrl } = uriSlice.actions;
 const uriReduser = uriSlice.reducer;
 export default uriReduser;

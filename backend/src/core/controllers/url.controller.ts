@@ -66,7 +66,11 @@ export const getShortUrl = asyncHandler(async (req, res) => {
     shortUrl: body.shortUrl,
     userAgent: body.userAgent as string,
   });
-  res.status(200).redirect(uri.longLink);
+  res.status(200).json({
+    message: "uri fetched successfully",
+    success: true,
+    data: uri,
+  });
 });
 
 export const updateActiveStatus = asyncHandler(async (req, res) => {

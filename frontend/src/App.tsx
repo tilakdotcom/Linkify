@@ -45,15 +45,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route element={<MainLayout />}>
-          <Route path="/:short" element={<RedirectPage />} />
-
-          <Route path="*" element={<div>404 Not Found</div>} />
-        </Route>
-
-        {/* 404 Not Found */}
-
-        {/* Redirect to 404 page if no route matches */}
+        <Route path="/u/:short" element={<RedirectPage />} />
       </Routes>
     </>
   );

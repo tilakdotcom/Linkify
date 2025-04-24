@@ -38,7 +38,7 @@ export default function UserHistory() {
         </CustomButtonGray>
       </div>
 
-      <DataTable className="md:mt-2 mt-2" data={userUrls} />
+      <DataTable className="md:mt-2 mt-2" data={userUrls} addAction />
     </>
   );
 }

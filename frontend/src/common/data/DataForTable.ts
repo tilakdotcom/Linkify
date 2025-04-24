@@ -41,10 +41,32 @@ export const tableDataForHome: ShortLink[] = [
 ];
 
 export const TableColumns = [
-  { name: "Short Link" },
-  { name: "Original Link" },
-  { name: "QR Code" },
-  { name: "Clicks" },
-  { name: "isActive" },
-  { name: "createdAt" },
+  {
+    name: "short link",
+    isToAdd: true,
+  },
+  {
+    name: "original link",
+    isToAdd: true,
+  },
+  {
+    name: "qr code",
+    isToAdd: true,
+  },
+  {
+    name: "clicks",
+    isToAdd: true,
+  },
+  {
+    name: "status",
+    isToAdd: true,
+  },
+  {
+    name: "date",
+    isToAdd: true,
+  },
+  {
+    name: "actions",
+    isToAdd: false,
+  },
 ];

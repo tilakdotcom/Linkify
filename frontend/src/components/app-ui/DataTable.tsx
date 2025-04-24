@@ -15,13 +15,24 @@ import { cn } from "@/common/lib/utils";
 import { formatDate } from "./DateFotmate";
 import toast from "react-hot-toast";
 import { frontendUri } from "@/common/lib/getEnv";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { FiEdit } from "react-icons/fi";
 
 type DataTableProps = {
   data: ShortLink[];
   className?: string;
+  addAction?: boolean;
+  onDelete?: (id: string) => void;
+  onEdit?: (id: string) => void;
 };
 
-export function DataTable({ data, className }: DataTableProps) {
+export function DataTable({
+  data,
+  className,
+  addAction,
+  onDelete,
+  onEdit,
+}: DataTableProps) {
   const [copied, setCopied] = useState<string>("");
   const handleOnCopy = (url: string) => {
     if (copied === url) return;
@@ -35,13 +46,21 @@ export function DataTable({ data, className }: DataTableProps) {
       setCopied("");
     }, 3000);
   };
+
+  const filterTableHeaders = TableColumns.filter(
+    (col) => col.isToAdd !== false
+  );
+
   return (
     <div className={cn("max-w-5xl mx-auto md:mt-10 mt-7", className)}>
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-800 hover:bg-gray-800 ">
-            {TableColumns.map((column) => (
-              <TableHead key={column.name} className="text-white text-sm">
+            {(addAction ? TableColumns : filterTableHeaders).map((column) => (
+              <TableHead
+                key={column.name}
+                className="text-white text-sm capitalize"
+              >
                 {column.name}
               </TableHead>
             ))}
@@ -72,9 +91,29 @@ export function DataTable({ data, className }: DataTableProps) {
               <TableCell>
                 <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
-              <TableCell>{data?.visits || 30}</TableCell>
-              <TableCell>{data.isActive ? "Active" : "Inactive"}</TableCell>
+              <TableCell>{data?.visits || 0}</TableCell>
+              <TableCell className="text-green-500 font-semibold">{data.isActive ? "Active" : "Inactive"}</TableCell>
               <TableCell>{formatDate(data.createdAt)}</TableCell>
+              {addAction === true && (
+                <TableCell>
+                  <div className="flex items-center justify-center gap-x-2">
+                    <button
+                      onClick={() => onEdit && onEdit(data.id)}
+                      className="bg-blue-500 hover:bg-blue-700 p-1 rounded-full text-white cursor-pointer"
+                      title="Edit"
+                    >
+                      <FiEdit className="md:size-4" />
+                    </button>
+                    <button
+                      onClick={() => onDelete && onDelete(data.id)}
+                      className="bg-red-500 cursor-pointer hover:bg-red-700 p-1 rounded-full text-white"
+                      title="Delete"
+                    >
+                      <RiDeleteBin5Line className="md:size-4" />
+                    </button>
+                  </div>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

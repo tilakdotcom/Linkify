@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { checkAuth, setAuthenticated } from "./store/auth/authSlice";
 import { CheckAuth } from "./layout/CheckAuth";
 import UserPage from "./pages/user/UserPage";
+import RedirectPage from "./pages/common/GetLinkPage";
 
 function App() {
   const { isAuthenticated, isLoading, user } = useTypeSelector(
@@ -44,7 +45,15 @@ function App() {
           </Route>
         </Route>
 
-        
+        <Route element={<MainLayout />}>
+          <Route path="/:short" element={<RedirectPage />} />
+
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Route>
+
+        {/* 404 Not Found */}
+
+        {/* Redirect to 404 page if no route matches */}
       </Routes>
     </>
   );

@@ -5,3 +5,4 @@ export const getUserRequest = "/user";
 export const uriShortPublicRequest = "/uri/public";
 export const uriShortUserRequest = "/uri/user";
 export const uriDataRequest = "/uri";
+export const uriUserRedirectRequest = (short: string) => `/uri/${short}`;

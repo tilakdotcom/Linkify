@@ -1,37 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { CustomButtonBlue } from "@/components/common/CustomButton";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+import { getShortUrl } from "@/store/auth/uri";
+import toast from "react-hot-toast";
 
 export default function RedirectPage() {
   const navigate = useNavigate();
+  const { isLoading, error } = useTypeSelector((state) => state.uriRequest);
+  const dispatch = useAppDispatch();
   const { short } = useParams<{ short: string }>();
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchLongUrl = async () => {
-  //     try {
-  //       const res = await axios.get(`/api/v1/uri/${short}`);
-  //       if (res?.data?.success) {
-  //         // Add a small delay for smooth transition
-  //         setTimeout(() => {
-  //           window.location.replace(res.data.data.longUrl);
-  //         }, 800);
-  //       } else {
-  //         setError(true);
-  //         setLoading(false);
-  //       }
-  //     } catch (err) {
-  //       setError(true);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchLongUrl = async () => {
+      const result = await dispatch(getShortUrl(short as string));
+      if (getShortUrl.fulfilled.match(result)) {
+        console.log(result.payload);
+      } else if (getShortUrl.rejected.match(result)) {
+        console.error(result);
+        toast.error("Errorin getting URLs. Please try again.");
+      }
+    };
 
-  //   fetchLongUrl();
-  // }, [short]);
+    fetchLongUrl();
+  }, [dispatch, short]);
 
-  if (loading && !error) {
+  if (isLoading && !error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
         <div className="flex flex-col items-center space-y-6">

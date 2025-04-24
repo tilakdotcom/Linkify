@@ -2,6 +2,7 @@ import {
   uriDataRequest,
   uriShortPublicRequest,
   uriShortUserRequest,
+  uriUserRedirectRequest,
 } from "@/common/lib/EndPoint";
 import { ShortLink } from "@/common/types/user";
 import API from "@/config/axios";
@@ -42,7 +43,7 @@ export const shortenUrlForUser = createAsyncThunk(
 );
 
 // get short url data
-export const getShortUrls = createAsyncThunk("uri/getShortUrl", async () => {
+export const getShortUrls = createAsyncThunk("uri/getShortUrls", async () => {
   try {
     const response = await API.get(uriDataRequest);
     return response.data;
@@ -55,6 +56,23 @@ export const getShortUrls = createAsyncThunk("uri/getShortUrl", async () => {
     }
   }
 });
+
+// get short url data for user
+export const getShortUrl = createAsyncThunk(
+  "uri/getShortUrl",
+  async (url: string, thunkAPI) => {
+    try {
+      const response = await API.get(uriUserRedirectRequest(url));
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      } else {
+        return thunkAPI.rejectWithValue("Error fetching short URL data");
+      }
+    }
+  }
+);
 
 interface UriState {
   shortUrl: string;
@@ -117,6 +135,18 @@ const uriSlice = createSlice({
         state.shortUrl = action.payload;
       })
       .addCase(shortenUrlForUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getShortUrl.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getShortUrl.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.shortUrl = action.payload;
+      })
+      .addCase(getShortUrl.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

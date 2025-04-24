@@ -1,7 +1,9 @@
 import {
   uriDataRequest,
+  uriDeleteRequest,
   uriShortPublicRequest,
   uriShortUserRequest,
+  uriUpdateRequest,
   uriUserRedirectRequest,
 } from "@/common/lib/EndPoint";
 import { ShortLink } from "@/common/types/user";
@@ -77,9 +79,9 @@ export const getShortUrl = createAsyncThunk(
 // delete short by id
 export const deleteShortUrl = createAsyncThunk(
   "uri/deleteShortUrl",
-  async (id: string, thunkAPI) => {
+  async (uri: string, thunkAPI) => {
     try {
-      const response = await API.delete(uriUserRedirectRequest(id));
+      const response = await API.delete(uriDeleteRequest(uri));
       return response.data;
     } catch (error) {
       if (error instanceof Error) {
@@ -94,10 +96,10 @@ export const deleteShortUrl = createAsyncThunk(
 // update short by id
 export const updateShortUrl = createAsyncThunk(
   "uri/updateShortUrl",
-  async (data: { id: string; longUrl: string }, thunkAPI) => {
+  async (data: { uri: string; longUrl: string }, thunkAPI) => {
     try {
-      const response = await API.put(uriUserRedirectRequest(data.id), {
-        longUrl: data.longUrl,
+      const response = await API.put(uriUpdateRequest(data.uri), {
+        longLink: data.longUrl,
       });
       return response.data;
     } catch (error) {
@@ -193,7 +195,7 @@ const uriSlice = createSlice({
       .addCase(deleteShortUrl.fulfilled, (state, action) => {
         state.isLoading = false;
         state.userUrls = state.userUrls.filter(
-          (url) => url.id !== action.meta.arg
+          (url) => url.id !== action.payload.id
         );
       })
       .addCase(deleteShortUrl.rejected, (state, action) => {
@@ -206,11 +208,12 @@ const uriSlice = createSlice({
       })
       .addCase(updateShortUrl.fulfilled, (state, action) => {
         state.isLoading = false;
+        const updatedUrl = action.payload.data.shortLink;
         const index = state.userUrls.findIndex(
-          (url) => url.id === action.meta.arg.id
+          (url) => url.id === updatedUrl.id
         );
         if (index !== -1) {
-          state.userUrls[index] = action.payload.data.shortLink;
+          state.userUrls[index] = updatedUrl;
         }
       })
       .addCase(updateShortUrl.rejected, (state, action) => {

@@ -10,11 +10,11 @@ import { TableColumns } from "@/common/data/DataForTable";
 import { TbCopy, TbCopyCheck } from "react-icons/tb";
 import { useState } from "react";
 import { ShowQR } from "./ShowQR";
-import { UserLinkTable } from "@/common/types/user";
+import { ShortLink } from "@/common/types/user";
 import { cn } from "@/common/lib/utils";
 
 type DataTableProps = {
-  data: UserLinkTable[];
+  data: ShortLink[];
   className?: string;
 };
 
@@ -62,15 +62,15 @@ export function DataTable({ data, className }: DataTableProps) {
               </TableCell>
 
               <TableCell>
-                {data.originalLink.substring(0, 50)}
-                {data.originalLink.length > 50 ? "..." : ""}
+                {data.longLink.substring(0, 50)}
+                {data.longLink.length > 50 ? "..." : ""}
               </TableCell>
               <TableCell>
                 <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
-              <TableCell>{data.clicks}</TableCell>
-              <TableCell>{data.status ? "Active" : "Inactive"}</TableCell>
-              <TableCell>{data.date}</TableCell>
+              <TableCell>{30}</TableCell>
+              <TableCell>{data.isActive ? "Active" : "Inactive"}</TableCell>
+              <TableCell>{data.createdAt}</TableCell>
             </TableRow>
           ))}
         </TableBody>

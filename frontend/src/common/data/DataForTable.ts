@@ -1,30 +1,42 @@
-import { UserLinkTable } from "../types/user";
+import { ShortLink } from "../types/user";
 
-export const tableDataForHome: UserLinkTable[] = [
+export const tableDataForHome: ShortLink[] = [
   {
     shortLink: "https://sho.rt/abc123",
-    originalLink: "https://example.com/awesome-article",
-    qrCode: "https://sho.rt/qr/abc123.png",
-    clicks: 245,
-    status: true,
-    date: "2025-04-15",
+    longLink: "https://example.com/awesome-article",
+    isActive: true,
+    createdAt: "2025-04-15",
+    id: "",
+    userId: "",
+    ipAddress: "",
+    userAgent: "",
+    updatedAt: "",
+    expiresAt: null,
   },
   {
     shortLink: "https://sho.rt/xyz789",
-    originalLink:
+    longLink:
       "https://youtube.com/watch?v=xyrtwertertwertwertewrtewrtewrtertewrtewrteertertertrewrtewrtertz",
-    qrCode: "https://sho.rt/qr/xyz789.png",
-    clicks: 109,
-    status: false,
-    date: "2025-03-10",
+    isActive: false,
+    createdAt: "2025-03-10",
+    id: "",
+    userId: "",
+    ipAddress: "",
+    userAgent: "",
+    updatedAt: "",
+    expiresAt: null,
   },
   {
     shortLink: "https://sho.rt/def456",
-    originalLink: "https://linkedin.com/in/tilak",
-    qrCode: "https://sho.rt/qr/def456.png",
-    clicks: 580,
-    status: true,
-    date: "2025-04-01",
+    longLink: "https://linkedin.com/in/tilak",
+    isActive: true,
+    createdAt: "2025-04-01",
+    id: "",
+    userId: "",
+    ipAddress: "",
+    userAgent: "",
+    updatedAt: "",
+    expiresAt: null,
   },
 ];
 
@@ -33,6 +45,6 @@ export const TableColumns = [
   { name: "Original Link" },
   { name: "QR Code" },
   { name: "Clicks" },
-  { name: "Status" },
-  { name: "Date" },
+  { name: "isActive" },
+  { name: "createdAt" },
 ];

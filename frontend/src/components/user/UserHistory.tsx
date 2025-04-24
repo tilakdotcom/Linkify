@@ -1,7 +1,6 @@
 import { HiOutlineFilter } from "react-icons/hi";
 import { CustomButtonGray } from "../common/CustomButton";
 import { DataTable } from "../app-ui/DataTable";
-import { tableDataForHome } from "@/common/data/DataForTable";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { getShortUrls } from "@/store/auth/uri";
 import toast from "react-hot-toast";
@@ -38,7 +37,7 @@ export default function UserHistory() {
         </CustomButtonGray>
       </div>
 
-      <DataTable className="md:mt-2 mt-2" data={tableDataForHome} />
+      <DataTable className="md:mt-2 mt-2" data={userUrls} />
     </>
   );
 }

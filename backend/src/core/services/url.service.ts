@@ -213,6 +213,9 @@ export const getShortUriDataWithLimitService = async (
     },
     skip,
     take: limit,
+    include: {
+      visitors: true,
+    },
   });
 
   appAssert(shortLink.length > 0, NOT_FOUND, "No URI found or inactive");
@@ -221,8 +224,17 @@ export const getShortUriDataWithLimitService = async (
     where: { userId },
   });
 
+  const updatedShortLink = shortLink.map((link) => {
+    const visits = link.visitors.length;
+    return {
+      ...link,
+      visitors: undefined,
+      visits: visits,
+    };
+  });
+
   return {
-    shortLink,
+    shortLink: updatedShortLink,
     totalCount,
     currentPage: page,
     totalPages: Math.ceil(totalCount / limit),

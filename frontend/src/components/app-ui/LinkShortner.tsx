@@ -11,11 +11,16 @@ import { Input } from "../ui/input";
 import { FormField, FormItem, FormControl } from "../ui/form";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { setShortUrl, shortenUrl, shortenUrlForUser } from "@/store/auth/uri";
+import { useState } from "react";
+import { frontendUri } from "@/common/lib/getEnv";
+import { TbCopy, TbCopyCheck } from "react-icons/tb";
 
 export default function LinkShortner() {
   const dispatch = useAppDispatch();
   const { shortUrl } = useTypeSelector((state) => state.uriRequest);
   const { user } = useTypeSelector((state) => state.auth);
+  const [copied, setCopied] = useState<string>("");
+
   const form = useForm<z.infer<typeof uriSchema>>({
     resolver: zodResolver(uriSchema),
     defaultValues: {
@@ -40,6 +45,23 @@ export default function LinkShortner() {
       toast.error("Error shortening URL. Please try again.");
     }
   }
+
+  const updateUri = frontendUri + shortUrl.toString();
+
+  const handleOnCopy = () => {
+    if (copied === updateUri) return;
+    if (copied !== "") {
+      clearTimeout(0);
+    }
+
+    navigator.clipboard.writeText(updateUri);
+    setCopied(updateUri);
+    toast.success("URL copied")
+    setTimeout(() => {
+      setCopied("");
+    }, 3000);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
       <CommonDiv className="mt-2 ">
@@ -89,8 +111,19 @@ export default function LinkShortner() {
         {!errors.longUrl?.message && <span>&nbsp;</span>}
         <div className="text-white/80 text-sm -mt-1 ">
           {shortUrl && (
-            <span className="text-green-500 font-semibold">
-              Shortened URL: {shortUrl.toString()}
+            <span
+              onClick={handleOnCopy}
+              className="text-green-500 font-semibold flex items-center gap-x-1 cursor-pointer"
+            >
+              Shortened URL: {frontendUri + shortUrl.toString()}
+              {copied === updateUri ? (
+                <TbCopyCheck className="md:size-5 font-semibold" />
+              ) : (
+                <TbCopy
+                  onClick={handleOnCopy}
+                  className="md:size-5 font-semibold"
+                />
+              )}
             </span>
           )}
         </div>

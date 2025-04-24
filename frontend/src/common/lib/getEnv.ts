@@ -7,3 +7,4 @@ export const getEnv = (env: string, defaultValue?: string) => {
 };
 
 export const backendUri = getEnv("VITE_BACKEND_URI");
+export const frontendUri = getEnv("VITE_FRONTEND_URI");

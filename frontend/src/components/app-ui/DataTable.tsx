@@ -13,6 +13,8 @@ import { ShowQR } from "./ShowQR";
 import { ShortLink } from "@/common/types/user";
 import { cn } from "@/common/lib/utils";
 import { formatDate } from "./DateFotmate";
+import toast from "react-hot-toast";
+import { frontendUri } from "@/common/lib/getEnv";
 
 type DataTableProps = {
   data: ShortLink[];
@@ -28,6 +30,7 @@ export function DataTable({ data, className }: DataTableProps) {
     }
     navigator.clipboard.writeText(url);
     setCopied(url);
+    toast.success("URL copied");
     setTimeout(() => {
       setCopied("");
     }, 3000);
@@ -51,12 +54,12 @@ export function DataTable({ data, className }: DataTableProps) {
               key={data.shortLink}
             >
               <TableCell className="flex  items-center justify-start gap-x-2">
-                {data.shortLink}{" "}
+                {frontendUri + data.shortLink}{" "}
                 {copied === data.shortLink ? (
                   <TbCopyCheck className="md:size-5" />
                 ) : (
                   <TbCopy
-                    onClick={() => handleOnCopy(data.shortLink)}
+                    onClick={() => handleOnCopy(frontendUri + data.shortLink)}
                     className="md:size-5"
                   />
                 )}

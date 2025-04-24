@@ -5,7 +5,6 @@ import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { getShortUrls } from "@/store/auth/uri";
 import toast from "react-hot-toast";
 import { useEffect, useRef } from "react";
-
 export default function UserHistory() {
   const dispatch = useAppDispatch();
   const { userUrls } = useTypeSelector((state) => state.uriRequest);

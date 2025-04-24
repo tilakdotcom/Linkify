@@ -8,15 +8,6 @@ export interface UserType {
   verifiedEmail: false;
 }
 
-export interface UserLinkTable {
-  shortLink: string;
-  originalLink: string;
-  qrCode: string;
-  clicks: number;
-  status: boolean;
-  date: string;
-}
-
 export interface ShortLink {
   id: string;
   userId: string;
@@ -28,4 +19,5 @@ export interface ShortLink {
   updatedAt: string;
   expiresAt: string | null;
   isActive: boolean;
+  visits?: string;
 }

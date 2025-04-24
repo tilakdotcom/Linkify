@@ -1,4 +1,8 @@
-import { uriDataRequest, uriShortPublicRequest } from "@/common/lib/EndPoint";
+import {
+  uriDataRequest,
+  uriShortPublicRequest,
+  uriShortUserRequest,
+} from "@/common/lib/EndPoint";
 import { ShortLink } from "@/common/types/user";
 import API from "@/config/axios";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -9,6 +13,23 @@ export const shortenUrl = createAsyncThunk(
     try {
       const response = await API.post(uriShortPublicRequest, { longUrl });
       return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+        return thunkAPI.rejectWithValue(error.message);
+      } else {
+        return thunkAPI.rejectWithValue("Error shortening URL");
+      }
+    }
+  }
+);
+// new short create for user
+export const shortenUrlForUser = createAsyncThunk(
+  "uri/shortenUrlForUser",
+  async (longUrl: string, thunkAPI) => {
+    try {
+      const response = await API.post(uriShortUserRequest, { longUrl });
+      return response.data?.data?.shortLink;
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -84,6 +105,18 @@ const uriSlice = createSlice({
         state.userUrls = action.payload.data.shortLink;
       })
       .addCase(getShortUrls.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(shortenUrlForUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(shortenUrlForUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.shortUrl = action.payload;
+      })
+      .addCase(shortenUrlForUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

@@ -25,8 +25,6 @@ export default function UserHistory() {
     }
   }, [dispatch, user]);
 
-  
-  console.log("uri Data", userUrls[0]);
   return (
     <>
       <div className="flex justify-between items-center max-w-5xl mx-auto md:py-6 text-2xl font-semibold">

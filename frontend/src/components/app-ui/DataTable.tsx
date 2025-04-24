@@ -12,6 +12,7 @@ import { useState } from "react";
 import { ShowQR } from "./ShowQR";
 import { ShortLink } from "@/common/types/user";
 import { cn } from "@/common/lib/utils";
+import { formatDate } from "./DateFotmate";
 
 type DataTableProps = {
   data: ShortLink[];
@@ -68,9 +69,9 @@ export function DataTable({ data, className }: DataTableProps) {
               <TableCell>
                 <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
-              <TableCell>{30}</TableCell>
+              <TableCell>{data?.visits || 30}</TableCell>
               <TableCell>{data.isActive ? "Active" : "Inactive"}</TableCell>
-              <TableCell>{data.createdAt}</TableCell>
+              <TableCell>{formatDate(data.createdAt)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -10,11 +10,12 @@ import { FormProvider } from "react-hook-form";
 import { Input } from "../ui/input";
 import { FormField, FormItem, FormControl } from "../ui/form";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
-import { setShortUrl, shortenUrl } from "@/store/auth/uri";
+import { setShortUrl, shortenUrl, shortenUrlForUser } from "@/store/auth/uri";
 
 export default function LinkShortner() {
   const dispatch = useAppDispatch();
   const { shortUrl } = useTypeSelector((state) => state.uriRequest);
+  const { user } = useTypeSelector((state) => state.auth);
   const form = useForm<z.infer<typeof uriSchema>>({
     resolver: zodResolver(uriSchema),
     defaultValues: {
@@ -29,15 +30,16 @@ export default function LinkShortner() {
   async function onSubmit(data: z.infer<typeof uriSchema>) {
     toast.success("Shortening the URL...");
     const longUrl = data.longUrl;
-    const result = await dispatch(shortenUrl(longUrl));
+    const shortner =
+      user != null ? shortenUrlForUser(longUrl) : shortenUrl(longUrl);
+    const result = await dispatch(shortner);
     if (shortenUrl.fulfilled.match(result)) {
       toast.success("URL shortened successfully!");
-      dispatch(setShortUrl(result.payload?.data?.shortLink));
+      dispatch(setShortUrl(result.payload?.data?.shortLink as string));
     } else if (shortenUrl.rejected.match(result)) {
       toast.error("Error shortening URL. Please try again.");
     }
   }
-
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
       <CommonDiv className="mt-2 ">

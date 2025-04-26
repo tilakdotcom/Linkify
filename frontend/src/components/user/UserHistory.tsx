@@ -50,7 +50,6 @@ export default function UserHistory() {
   };
 
   const handleOnStatusChange = async (uri: string, status: boolean) => {
-    console.log(uri, status);
     const result = await dispatch(
       updateShortStatus({
         uri,

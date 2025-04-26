@@ -246,9 +246,9 @@ const uriSlice = createSlice({
       })
       .addCase(updateShortStatus.fulfilled, (state, action) => {
         state.isLoading = false;
-        const updatedUrl = action.payload.data.shortLink;
+        const updatedUrl = action.payload.data;
         const index = state.userUrls.findIndex(
-          (url) => url.id === updatedUrl.id
+          (url) => url.shortLink === updatedUrl.shortLink
         );
         if (index !== -1) {
           state.userUrls[index] = updatedUrl;

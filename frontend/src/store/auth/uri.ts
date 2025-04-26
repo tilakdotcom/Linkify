@@ -4,6 +4,7 @@ import {
   uriShortPublicRequest,
   uriShortUserRequest,
   uriUpdateRequest,
+  uriUpdateStatusRequest,
   uriUserRedirectRequest,
 } from "@/common/lib/EndPoint";
 import { ShortLink } from "@/common/types/user";
@@ -100,6 +101,25 @@ export const updateShortUrl = createAsyncThunk(
     try {
       const response = await API.put(uriUpdateRequest(data.uri), {
         longLink: data.longUrl,
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      } else {
+        return thunkAPI.rejectWithValue("Error updating short URL");
+      }
+    }
+  }
+);
+
+//update short status by short
+export const updateShortStatus = createAsyncThunk(
+  "uri/updateShortStatus",
+  async (data: { uri: string; status: boolean }, thunkAPI) => {
+    try {
+      const response = await API.post(uriUpdateStatusRequest(data.uri), {
+        isActive: data.status,
       });
       return response.data;
     } catch (error) {
@@ -217,6 +237,24 @@ const uriSlice = createSlice({
         }
       })
       .addCase(updateShortUrl.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateShortStatus.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateShortStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedUrl = action.payload.data.shortLink;
+        const index = state.userUrls.findIndex(
+          (url) => url.id === updatedUrl.id
+        );
+        if (index !== -1) {
+          state.userUrls[index] = updatedUrl;
+        }
+      })
+      .addCase(updateShortStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

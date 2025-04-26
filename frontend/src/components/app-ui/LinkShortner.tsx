@@ -36,22 +36,31 @@ export default function LinkShortner() {
     formState: { errors },
   } = form;
 
+  const isAccessLimited = publicAccessWithLimit < PUBLIC_ACCESS_LIMIT;
+
   async function onSubmit(data: z.infer<typeof uriSchema>) {
-    toast.success("Shortening the URL...");
-    const longUrl = data.longUrl;
-    const shortner =
-      user != null ? shortenUrlForUser(longUrl) : shortenUrl(longUrl);
-    const result = await dispatch(shortner);
-    if (shortenUrl.fulfilled.match(result)) {
-      toast.success("URL shortened successfully!");
-      dispatch(setPublicAccessWithLimit());
-      dispatch(setShortUrl(result.payload?.data?.shortLink as string));
-    } else if (shortenUrl.rejected.match(result)) {
-      toast.error("Error shortening URL. Please try again.");
+    if (isAccessLimited) {
+      toast.success("Shortening the URL...");
+      const longUrl = data.longUrl;
+      const shortner =
+        user != null ? shortenUrlForUser(longUrl) : shortenUrl(longUrl);
+      const result = await dispatch(shortner);
+      if (shortenUrl.fulfilled.match(result)) {
+        toast.success("URL shortened successfully!");
+        dispatch(setPublicAccessWithLimit());
+        dispatch(setShortUrl(result.payload?.data?.shortLink as string));
+      } else if (shortenUrl.rejected.match(result)) {
+        toast.error("Error shortening URL. Please try again.");
+      }
+    } else {
+      toast.error("You have reached the limit of shortening URLs.");
+      toast.error(
+        `You can shorten ${PUBLIC_ACCESS_LIMIT} links. Please login to shorten more links.`
+      );
+      form.reset();
+      return;
     }
   }
-
-  const isAccessLimited = publicAccessWithLimit  >= PUBLIC_ACCESS_LIMIT;
 
   const updateUri = frontendUri + shortUrl.toString();
 
@@ -68,7 +77,6 @@ export default function LinkShortner() {
       setCopied("");
     }, 3000);
   };
-
 
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
@@ -99,7 +107,7 @@ export default function LinkShortner() {
             />
             <div>
               <CustomButtonBlue
-                disabled={errors.longUrl?.message || isAccessLimited ? true : false}
+                disabled={errors.longUrl?.message ? true : false}
                 type="submit"
                 className={`md:text-[14px] py-1.5 ${
                   errors.longUrl?.message

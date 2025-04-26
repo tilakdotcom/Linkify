@@ -14,4 +14,5 @@ export type initialStateProps = {
   isLoading: boolean;
   user: UserType | null;
   error: string | null;
+  publicAccessWithLimit?: number;  
 };

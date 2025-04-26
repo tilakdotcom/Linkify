@@ -24,7 +24,7 @@ type DataTableProps = {
   className?: string;
   addAction?: boolean;
   onDelete?: (id: string) => void;
-  onEdit?: (id: string) => void;
+  onEdit?: (id?: string) => void;
   onStatusChange?: (uri: string, status: boolean) => void;
 };
 

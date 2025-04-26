@@ -40,14 +40,6 @@ export default function UserHistory() {
       toast.error("URL is already deleted. Please wait.");
     }
   };
-  const handleEdit = async (id: string) => {
-    const result = await dispatch(deleteShortUrl(id));
-    if (deleteShortUrl.fulfilled.match(result)) {
-      toast.success("URL deleted successfully.");
-    } else if (deleteShortUrl.rejected.match(result)) {
-      toast.error("Error deleting URL. Please try again.");
-    }
-  };
 
   const handleOnStatusChange = async (uri: string, status: boolean) => {
     const result = await dispatch(
@@ -62,25 +54,37 @@ export default function UserHistory() {
       toast.error("Error deleting URL. Please try again.");
     }
   };
+  const handleOnPremiumWarning = () => {
+    toast.error("This feature is only available for premium users.");
+  };
 
   return (
     <>
       <div className="flex justify-between items-center max-w-5xl mx-auto md:py-6 text-2xl font-semibold">
         <span>History ({lenthRef})</span>
-        <CustomButtonGray className="md:text-sm">
+        <CustomButtonGray
+          navigateTo={handleOnPremiumWarning}
+          className="md:text-sm"
+        >
           <HiOutlineFilter />
           Filter
         </CustomButtonGray>
       </div>
-
-      <DataTable
-        className="md:mt-2 mt-2"
-        data={userUrls}
-        addAction
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-        onStatusChange={handleOnStatusChange}
-      />
+      {lenthRef > 0 ? (
+        <DataTable
+          className="md:mt-2 mt-2"
+          data={userUrls}
+          addAction
+          onDelete={handleDelete}
+          onEdit={handleOnPremiumWarning}
+          onStatusChange={handleOnStatusChange}
+        />
+      ) : (
+        <p className="sm:text-lg text-sm text-gray-300 mb-6 text-center">
+          You haven&apos;t created any short links yet. Start shortening your
+          links
+        </p>
+      )}
     </>
   );
 }

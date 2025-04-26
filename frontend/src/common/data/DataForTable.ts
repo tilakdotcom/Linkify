@@ -2,11 +2,11 @@ import { ShortLink } from "../types/user";
 
 export const tableDataForHome: ShortLink[] = [
   {
-    shortLink: "https://sho.rt/abc123",
-    longLink: "https://example.com/awesome-article",
+    shortLink: "git",
+    longLink: "https://github.com/tilakdotcom",
     isActive: true,
-    createdAt: "2025-04-15",
-    id: "",
+    createdAt: "2025-04-26T11:20:36.018Z",
+    id: "1",
     userId: "",
     ipAddress: "",
     userAgent: "",
@@ -14,12 +14,11 @@ export const tableDataForHome: ShortLink[] = [
     expiresAt: null,
   },
   {
-    shortLink: "https://sho.rt/xyz789",
-    longLink:
-      "https://youtube.com/watch?v=xyrtwertertwertwertewrtewrtewrtertewrtewrteertertertrewrtewrtertz",
+    shortLink: "linkedin",
+    longLink: "https://www.linkedin.com/in/tilakdotcom/",
     isActive: false,
-    createdAt: "2025-03-10",
-    id: "",
+    createdAt: "2025-04-26T11:20:36.018Z",
+    id: "2",
     userId: "",
     ipAddress: "",
     userAgent: "",
@@ -27,11 +26,11 @@ export const tableDataForHome: ShortLink[] = [
     expiresAt: null,
   },
   {
-    shortLink: "https://sho.rt/def456",
-    longLink: "https://linkedin.com/in/tilak",
+    shortLink: "tilak",
+    longLink: "https://tilakdotcom.vercel.app/",
     isActive: true,
-    createdAt: "2025-04-01",
-    id: "",
+    createdAt: "2025-04-26T11:20:36.018Z",
+    id: "3",
     userId: "",
     ipAddress: "",
     userAgent: "",

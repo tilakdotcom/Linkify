@@ -82,7 +82,7 @@ export const deleteShortUrl = createAsyncThunk(
   async (uri: string, thunkAPI) => {
     try {
       const response = await API.delete(uriDeleteRequest(uri));
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(error.message);

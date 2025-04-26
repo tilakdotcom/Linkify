@@ -92,7 +92,9 @@ export function DataTable({
                 <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
               <TableCell>{data?.visits || 0}</TableCell>
-              <TableCell className="text-green-500 font-semibold">{data.isActive ? "Active" : "Inactive"}</TableCell>
+              <TableCell className="text-green-500 font-semibold">
+                {data.isActive ? "Active" : "Inactive"}
+              </TableCell>
               <TableCell>{formatDate(data.createdAt)}</TableCell>
               {addAction === true && (
                 <TableCell>
@@ -105,7 +107,7 @@ export function DataTable({
                       <FiEdit className="md:size-4" />
                     </button>
                     <button
-                      onClick={() => onDelete && onDelete(data.id)}
+                      onClick={() => onDelete && onDelete(data.shortLink)}
                       className="bg-red-500 cursor-pointer hover:bg-red-700 p-1 rounded-full text-white"
                       title="Delete"
                     >

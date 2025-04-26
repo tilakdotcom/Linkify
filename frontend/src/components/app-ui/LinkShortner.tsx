@@ -14,11 +14,15 @@ import { setShortUrl, shortenUrl, shortenUrlForUser } from "@/store/auth/uri";
 import { useState } from "react";
 import { frontendUri } from "@/common/lib/getEnv";
 import { TbCopy, TbCopyCheck } from "react-icons/tb";
+import { setPublicAccessWithLimit } from "@/store/auth/authSlice";
+import { PUBLIC_ACCESS_LIMIT } from "@/common/constant";
 
 export default function LinkShortner() {
   const dispatch = useAppDispatch();
   const { shortUrl } = useTypeSelector((state) => state.uriRequest);
-  const { user } = useTypeSelector((state) => state.auth);
+  const { user, publicAccessWithLimit } = useTypeSelector(
+    (state) => state.auth
+  );
   const [copied, setCopied] = useState<string>("");
 
   const form = useForm<z.infer<typeof uriSchema>>({
@@ -40,11 +44,14 @@ export default function LinkShortner() {
     const result = await dispatch(shortner);
     if (shortenUrl.fulfilled.match(result)) {
       toast.success("URL shortened successfully!");
+      dispatch(setPublicAccessWithLimit());
       dispatch(setShortUrl(result.payload?.data?.shortLink as string));
     } else if (shortenUrl.rejected.match(result)) {
       toast.error("Error shortening URL. Please try again.");
     }
   }
+
+  const isAccessLimited = publicAccessWithLimit  >= PUBLIC_ACCESS_LIMIT;
 
   const updateUri = frontendUri + shortUrl.toString();
 
@@ -56,11 +63,12 @@ export default function LinkShortner() {
 
     navigator.clipboard.writeText(updateUri);
     setCopied(updateUri);
-    toast.success("URL copied")
+    toast.success("URL copied");
     setTimeout(() => {
       setCopied("");
     }, 3000);
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
@@ -91,11 +99,11 @@ export default function LinkShortner() {
             />
             <div>
               <CustomButtonBlue
-                disabled={errors.longUrl?.message ? true : false}
+                disabled={errors.longUrl?.message || isAccessLimited ? true : false}
                 type="submit"
                 className={`md:text-[14px] py-1.5 ${
                   errors.longUrl?.message
-                    ? "cursor-not-allowed bg-blue-500 hover:bg-blue-500"
+                    ? "cursor-not-allowed bg-blue-600 hover:bg-blue-600"
                     : ""
                 } `}
               >

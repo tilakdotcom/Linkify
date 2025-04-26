@@ -77,8 +77,8 @@ export const checkAuth = createAsyncThunk("checkAuth/data", async () => {
 
 export const logoutUser = createAsyncThunk("logoutUser/data", async () => {
   try {
-   await API.get(logoutUserRequest);
-    return
+    await API.get(logoutUserRequest);
+    return;
   } catch (error) {
     console.error(error);
     throw new Error("Authentication failed");
@@ -90,6 +90,9 @@ const initialState: initialStateProps = {
   isLoading: false,
   user: JSON.parse(localStorage.getItem("user") || "null"),
   error: null,
+  publicAccessWithLimit: JSON.parse(
+    localStorage.getItem("publicAccessWithLimit") || "0"
+  ),
 };
 
 const authSlice = createSlice({
@@ -103,6 +106,14 @@ const authSlice = createSlice({
     },
     setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
+    },
+    setPublicAccessWithLimit: (state) => {
+      state.publicAccessWithLimit = state.publicAccessWithLimit + 1;
+
+      localStorage.setItem(
+        "publicAccessWithLimit",
+        JSON.stringify(state.publicAccessWithLimit)
+      );
     },
   },
 
@@ -129,6 +140,7 @@ const authSlice = createSlice({
         // console.log("action", action.payload.data);
         state.user = action.payload.data;
         localStorage.setItem("user", JSON.stringify(state.user));
+        localStorage.removeItem("publicAccessWithLimit");
       })
       .addCase(loginUser.rejected, (state, action) => {
         console.log("action at error", action);
@@ -168,7 +180,8 @@ const authSlice = createSlice({
   },
 });
 
-export const {setAuthenticated, setUser } = authSlice.actions;
+export const { setAuthenticated, setUser, setPublicAccessWithLimit } =
+  authSlice.actions;
 
 const authReduser = authSlice.reducer;
 

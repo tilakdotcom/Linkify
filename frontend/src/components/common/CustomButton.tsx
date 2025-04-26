@@ -12,6 +12,7 @@ export function CustomButtonBlue({
   className,
   navigateTo,
   type = "button",
+  ...rest
 }: CustomButtonProps) {
   return (
     <button
@@ -21,6 +22,7 @@ export function CustomButtonBlue({
         className
       )}
       type={type}
+      {...rest}
     >
       {children}
     </button>

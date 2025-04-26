@@ -24,7 +24,6 @@ export default function RedirectPage() {
         }
       } else if (getShortUrl.rejected.match(result)) {
         console.error(result);
-        toast.error("Errorin getting URLs. Please try again.");
       }
     };
 
@@ -58,9 +57,11 @@ export default function RedirectPage() {
             Oops! The link you're trying to access is either broken, expired, or
             never existed.
           </p>
-          <CustomButtonBlue navigateTo={() => navigate("/")} className="md:text-[15px]">
-            ←
-            Back to Home
+          <CustomButtonBlue
+            navigateTo={() => navigate("/")}
+            className="md:text-[15px]"
+          >
+            ← Back to Home
           </CustomButtonBlue>
         </div>
       </div>

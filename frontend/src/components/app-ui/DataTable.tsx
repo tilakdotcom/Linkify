@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { frontendUri } from "@/common/lib/getEnv";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
+import { HiMiniLink, HiMiniLinkSlash } from "react-icons/hi2";
 
 type DataTableProps = {
   data: ShortLink[];
@@ -24,6 +25,7 @@ type DataTableProps = {
   addAction?: boolean;
   onDelete?: (id: string) => void;
   onEdit?: (id: string) => void;
+  onStatusChange?: (uri: string, status: boolean) => void;
 };
 
 export function DataTable({
@@ -32,6 +34,7 @@ export function DataTable({
   addAction,
   onDelete,
   onEdit,
+  onStatusChange,
 }: DataTableProps) {
   const [copied, setCopied] = useState<string>("");
   const handleOnCopy = (url: string) => {
@@ -92,8 +95,19 @@ export function DataTable({
                 <ShowQR qrCodeUrl={data.shortLink} />
               </TableCell>
               <TableCell>{data?.visits || 0}</TableCell>
-              <TableCell className="text-green-500 font-semibold">
-                {data.isActive ? "Active" : "Inactive"}
+              <TableCell className="text-green-500 font-semibold cursor-pointer">
+                <button
+                  onClick={() =>
+                    onStatusChange &&
+                    onStatusChange(data.shortLink, data.isActive)
+                  }
+                >
+                  {data.isActive ? (
+                    <HiMiniLink className="bg-green-500 cursor-pointer hover:bg-green-700 p-1 rounded-full text-white sm:size-5  transition-colors" />
+                  ) : (
+                    <HiMiniLinkSlash className="bg-red-500 cursor-pointer hover:bg-red-700 p-1 rounded-full text-white sm:size-5 transition-colors" />
+                  )}
+                </button>
               </TableCell>
               <TableCell>{formatDate(data.createdAt)}</TableCell>
               {addAction === true && (

@@ -2,7 +2,12 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { CustomButtonGray } from "../common/CustomButton";
 import { DataTable } from "../app-ui/DataTable";
 import { useAppDispatch, useTypeSelector } from "@/store/store";
-import { deleteShortUrl, getShortUrls, setShortUrl } from "@/store/auth/uri";
+import {
+  deleteShortUrl,
+  getShortUrls,
+  setShortUrl,
+  updateShortStatus,
+} from "@/store/auth/uri";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 export default function UserHistory() {
@@ -44,6 +49,21 @@ export default function UserHistory() {
     }
   };
 
+  const handleOnStatusChange = async (uri: string, status: boolean) => {
+    console.log(uri, status);
+    const result = await dispatch(
+      updateShortStatus({
+        uri,
+        status: !status,
+      })
+    );
+    if (deleteShortUrl.fulfilled.match(result)) {
+      toast.success("URL deleted successfully.");
+    } else if (deleteShortUrl.rejected.match(result)) {
+      toast.error("Error deleting URL. Please try again.");
+    }
+  };
+
   return (
     <>
       <div className="flex justify-between items-center max-w-5xl mx-auto md:py-6 text-2xl font-semibold">
@@ -60,6 +80,7 @@ export default function UserHistory() {
         addAction
         onDelete={handleDelete}
         onEdit={handleEdit}
+        onStatusChange={handleOnStatusChange}
       />
     </>
   );

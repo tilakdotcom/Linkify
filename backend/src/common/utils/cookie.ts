@@ -1,5 +1,6 @@
 import { CookieOptions, Response } from "express";
 import { fifteenMinuteFromNow, thirtyDaysFromNow } from "./customTime";
+import { NODE_ENV } from "../constants/getEnv";
 
 type setAuthParams = {
   res: Response;
@@ -11,8 +12,8 @@ export const REFRESH_PATH = "/api/v1/auth/refresh";
 
 const defaultCookieOptions: CookieOptions = {
   httpOnly: true,
-  sameSite: "strict",
-  secure: true,
+  secure: NODE_ENV === "production",
+  sameSite: NODE_ENV === "production" ? "none" : "lax",
 };
 
 const accessTokenCookieOptions = (): CookieOptions => {

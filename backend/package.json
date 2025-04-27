@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --files src/index.ts ",
-    "build": "tsc",
+    "dev": "ts-node-dev  --files src/index.ts",
+    "build": "tsc && npm install && prisma generate --schema=./prisma/schema.prisma && npm install",
     "start": "node ./dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "tilak",
   "license": "ISC",
   "description": "",
   "dependencies": {

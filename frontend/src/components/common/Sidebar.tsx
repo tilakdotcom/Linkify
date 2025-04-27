@@ -2,14 +2,16 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { useTypeSelector } from "@/store/store";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { userPageNav } from "@/common/data/userRelated";
+import { setActivePage } from "@/store/auth/authSlice";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const { isAuthenticated } = useTypeSelector((state) => state.auth);
+  const dispatch = useAppDispatch()
 
   const toggleSidebar = useCallback(() => {
     if (!isAuthenticated) return toast.error("You need to login");
@@ -25,6 +27,11 @@ export default function Sidebar() {
     },
     [isOpen]
   );
+
+  const handleOnChangePage =(page:string)=>{
+    setIsOpen(false)
+    dispatch(setActivePage(page))
+  }
 
   useEffect(() => {
     // Prevent background scrolling
@@ -111,7 +118,7 @@ export default function Sidebar() {
             return (
               <div
                 key={item.title}
-                onClick={() => setIsOpen(false)}
+                onClick={() => handleOnChangePage(item.title)}
                 className="flex items-center gap-3 p-3 rounded-md hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-800"
               >
                 <Icon size={20} />

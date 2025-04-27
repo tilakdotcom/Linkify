@@ -15,4 +15,5 @@ export type initialStateProps = {
   user: UserType | null;
   error: string | null;
   publicAccessWithLimit: number;  
+  activiePage: string;
 };

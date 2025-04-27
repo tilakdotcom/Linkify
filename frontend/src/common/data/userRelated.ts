@@ -6,29 +6,29 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { TbBrandLinktree } from "react-icons/tb";
 
 export type userPageNavProps = {
-  name: string;
+  title: string;
   icon: IconType;
 };
 
 export const userPageNav: userPageNavProps[] = [
   {
-    name: "shortner",
+    title: "shortner",
     icon: TbBrandLinktree,
   },
   {
-    name: "history",
+    title: "history",
     icon: BsClockHistory,
   },
   {
-    name: "statistics",
+    title: "statistics",
     icon: RiBarChart2Fill,
   },
   {
-    name: "clicks",
+    title: "clicks",
     icon: TbHandFinger,
   },
   {
-    name: "settings",
+    title: "settings",
     icon: IoSettingsOutline,
   },
 ];

@@ -20,15 +20,15 @@ export default function UserHeader({
           return (
             <button
               key={i}
-              onClick={() => setActive(icons.name)}
+              onClick={() => setActive(icons.title)}
               className={`flex gap-x-1.5 justify-center items-center focus:outline-none cursor-pointer border border-b-[3px] border-x-0 border-t-0 hover:border-blue-500 pb-1 transition-colors text-sm ${
-                active === icons.name
+                active === icons.title
                   ? "border-blue-500"
                   : " border-transparent "
               }`}
             >
               <Icon className="size-4 font-medium" />{" "}
-              <span className="capitalize font-mediummd">{icons.name}</span>
+              <span className="capitalize font-mediummd">{icons.title}</span>
             </button>
           );
         })}

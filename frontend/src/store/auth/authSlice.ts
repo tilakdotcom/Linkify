@@ -93,6 +93,7 @@ const initialState: initialStateProps = {
   publicAccessWithLimit: JSON.parse(
     localStorage.getItem("publicAccessWithLimit") || "0"
   ),
+  activiePage: "shortner",
 };
 
 const authSlice = createSlice({
@@ -114,6 +115,9 @@ const authSlice = createSlice({
         "publicAccessWithLimit",
         JSON.stringify(state.publicAccessWithLimit)
       );
+    },
+    setActivePage: (state, action) => {
+      state.activiePage = action.payload;
     },
   },
 
@@ -180,7 +184,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuthenticated, setUser, setPublicAccessWithLimit } =
+export const { setAuthenticated, setUser, setPublicAccessWithLimit, setActivePage } =
   authSlice.actions;
 
 const authReduser = authSlice.reducer;

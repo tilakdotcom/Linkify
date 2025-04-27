@@ -131,9 +131,11 @@ export default function LinkShortner() {
           {shortUrl && (
             <span
               onClick={handleOnCopy}
-              className="text-green-500 font-semibold flex justify-center items-center gap-x-1 cursor-pointer"
+              className="text-green-500 font-semibold sm:flex-row gap-1
+              items-center flex-col flex cursor-pointer"
             >
-              Shortened URL: {`${frontendUri}/${shortUrl}`}
+              <span> Shortened URL:</span>
+              {`${frontendUri}/${shortUrl}`}
               {copied === updateUri ? (
                 <TbCopyCheck className="md:size-5 font-semibold" />
               ) : (

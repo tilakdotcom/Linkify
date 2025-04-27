@@ -8,11 +8,11 @@ export default function UserShortner() {
       id="hero"
       className="flex flex-col items-center justify-center space-y-6"
     >
-      <GradientText className="md:text-5xl text-3xl font-bold text-center tracking-wide max-w-4xl leading-[1.2] pb-0">
+      <GradientText className="md:text-5xl sm:text-3xl font-bold text-center text-xl tracking-wide max-w-4xl leading-[1.2] pb-0">
         Welcome back! Ready to shorten some links with Linkify?
       </GradientText>
 
-      <p className="text-gray-500 text-[16.5px] font-normal text-center max-w-2xl">
+      <p className="text-gray-500 sm:text-[16.5px] font-normal text-center max-w-2xl text-sm">
         Create short, shareable links and track every click. Linkify helps you
         manage your URLs with ease and precision.
       </p>
@@ -21,7 +21,7 @@ export default function UserShortner() {
       <LinkShortner />
 
       {/* Usage info for logged-in user */}
-      <p className="text-gray-400 text-[13.5px] font-normal text-center max-w-2xl flex gap-x-1 items-center">
+      <p className="text-gray-400 text-[13.5px] font-normal text-center max-w-2xl flex gap-x-1 items-center ">
         You can create{" "}
         <span className="font-bold text-green-600 text-[14px]"> multi </span>
         links.

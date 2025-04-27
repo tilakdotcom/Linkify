@@ -12,7 +12,7 @@ export default function UserPage() {
   return (
     <Container className="py-0 min-h-screen">
       {/* "user header" */}
-      <UserHeader active={active} setActive={setActive} />
+      <UserHeader className="hidden sm:flex" active={active} setActive={setActive} />
       <div className="py-5">
         {active === "shortner" && <UserShortner />}
         {active === "history" && <UserHistory />}

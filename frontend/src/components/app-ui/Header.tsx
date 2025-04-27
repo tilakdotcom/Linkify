@@ -48,10 +48,10 @@ export default function Header() {
         </LinkButton>
 
         {isAuthenticated && (
-          <div className="flex items-center md:gap-x-4 gap-x-2 justify-between">
+          <div className="items-center md:gap-x-4 gap-x-2 justify-between  hidden  sm:flex">
             <FaUserCog
               onClick={handleToUser}
-              className="md:size-6 cursor-pointer"
+              className="md:size-6 cursor-pointer text-gray-500 hover:text-gray-700 transition-all duration-200"
             />
 
             <div className=" border-[1px] border-gray-500 rounded-full overflow-hidden object-cover ">

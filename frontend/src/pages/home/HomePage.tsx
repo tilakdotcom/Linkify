@@ -23,7 +23,7 @@ export default function HomePage() {
           <GradientText className="md:text-5xl text-3xl font-bold text-center tracking-wide max-w-4xl leading-[1.2] pb-0">
             Shorten your links and track your clicks with Linkify :)
           </GradientText>
-          <p className="text-gray-500 text-[16.5px] font-normal text-center max-w-2xl ">
+          <p className="text-gray-500 md:text-[16.5px] font-normal text-center max-w-2xl  text-sm ">
             Linkify is a URL shortening service that allows you to create short
             links for your long URLs. You can also track the number of clicks on
             your short links.
@@ -31,7 +31,7 @@ export default function HomePage() {
           {/* link shortner  */}
           <LinkShortner />
           {/* inform */}
-          <p className="text-gray-400 text-[13.5px] font-normal text-center max-w-2xl flex gap-x-1 items-center">
+          <p className="text-gray-400 text-[13.5px] font-normal text-center max-w-2xl flex gap-1 items-center justify-center flex-wrap">
             You can create{" "}
             <span className="font-bold text-pink-600 text-[14px]"> 0{currentLimit} </span>{" "}
             more links. Register Now to enjoy unlimited usages{" "}

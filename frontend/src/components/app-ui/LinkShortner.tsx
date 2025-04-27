@@ -78,8 +78,6 @@ export default function LinkShortner() {
     }, 3000);
   };
 
-  console.log("shortUrl", shortUrl);
-
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
       <CommonDiv className="mt-2 ">
@@ -133,7 +131,7 @@ export default function LinkShortner() {
           {shortUrl && (
             <span
               onClick={handleOnCopy}
-              className="text-green-500 font-semibold flex items-center gap-x-1 cursor-pointer"
+              className="text-green-500 font-semibold flex justify-center items-center gap-x-1 cursor-pointer"
             >
               Shortened URL: {`${frontendUri}/${shortUrl}`}
               {copied === updateUri ? (

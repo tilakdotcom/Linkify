@@ -8,6 +8,7 @@ import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { logoutUser } from "@/store/auth/authSlice";
 import toast from "react-hot-toast";
 import { FaUserCog } from "react-icons/fa";
+import { setShortUrl } from "@/store/auth/uri";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();
+      dispatch(setShortUrl(""));
       toast.success("Logged out successfully!");
       navigate("/login");
     } catch (err) {
@@ -79,7 +81,7 @@ export default function Header() {
             </CustomButtonGray>
             <CustomButtonBlue
               navigateTo={handleRegister}
-              className="md:text-[15px]"
+              className="md:text-[15px] hidden sm:flex"
             >
               Register
             </CustomButtonBlue>

@@ -11,7 +11,7 @@ export default function Sidebar() {
   const sidebarRef = useRef<HTMLElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const { isAuthenticated } = useTypeSelector((state) => state.auth);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const toggleSidebar = useCallback(() => {
     if (!isAuthenticated) return toast.error("You need to login");
@@ -28,13 +28,12 @@ export default function Sidebar() {
     [isOpen]
   );
 
-  const handleOnChangePage =(page:string)=>{
-    setIsOpen(false)
-    dispatch(setActivePage(page))
-  }
+  const handleOnChangePage = (page: string) => {
+    setIsOpen(false);
+    dispatch(setActivePage(page));
+  };
 
   useEffect(() => {
-    // Prevent background scrolling
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -78,7 +77,6 @@ export default function Sidebar() {
     <>
       {/* Mobile Toggle Button */}
       <button
-        // disabled={!isAuthenticated}
         ref={toggleButtonRef}
         aria-label="Toggle sidebar"
         aria-expanded={isOpen}
@@ -88,7 +86,6 @@ export default function Sidebar() {
       >
         <Menu className="text-xl md:text-2xl text-darkText group-hover:text-skyText" />
       </button>
-      {/* <Button>{isOpen ? <X size={24} /> : <Menu size={24} />}</Button> */}
 
       {/* Sidebar */}
       <aside
@@ -96,9 +93,13 @@ export default function Sidebar() {
         ref={sidebarRef}
         role="navigation"
         aria-label="Main navigation"
-        className={`fixed left-0 top-0 h-full w-64 bg-gray-900 text-white shadow-lg transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:w-72 md:block z-40`}
+        className={`fixed left-0 top-0 z-[9999] h-full w-full bg-gray-900 text-white shadow-lg transform transition-transform duration-300 ease-in-out md:translate-x-0
+          ${
+            isOpen
+              ? "translate-x-0 pointer-events-auto"
+              : "-translate-x-full pointer-events-none"
+          }
+          md:w-72 md:block`}
       >
         <div className="p-6 flex justify-between items-center border-b border-gray-800">
           <h2 className="text-2xl font-bold">My App</h2>
@@ -119,7 +120,7 @@ export default function Sidebar() {
               <div
                 key={item.title}
                 onClick={() => handleOnChangePage(item.title)}
-                className="flex items-center gap-3 p-3 rounded-md hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-800"
+                className="flex items-center gap-3 p-3 rounded-md hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-800 cursor-pointer"
               >
                 <Icon size={20} />
                 <span>{item.title}</span>
@@ -132,7 +133,7 @@ export default function Sidebar() {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 bg-opacity-50 md:hidden z-30"
+          className="fixed inset-0 bg-black/60 bg-opacity-50 md:hidden z-[9999]"
           onClick={toggleSidebar}
           aria-hidden="true"
         />

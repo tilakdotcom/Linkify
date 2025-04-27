@@ -10,6 +10,7 @@ import {
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import Loading from "../common/Loading";
+import { AccordionDataTable } from "../common/mobileData";
 export default function UserHistory() {
   const dispatch = useAppDispatch();
   const { userUrls, isLoading } = useTypeSelector((state) => state.uriRequest);
@@ -31,7 +32,6 @@ export default function UserHistory() {
   }, [dispatch, user]);
 
   if (isLoading) return <Loading />;
-
 
   const handleDelete = async (id: string) => {
     const result = await dispatch(deleteShortUrl(id));
@@ -73,14 +73,24 @@ export default function UserHistory() {
         </CustomButtonGray>
       </div>
       {lenthRef > 0 ? (
-        <DataTable
-          className="md:mt-2 mt-2"
-          data={userUrls}
-          addAction
-          onDelete={handleDelete}
-          onEdit={handleOnPremiumWarning}
-          onStatusChange={handleOnStatusChange}
-        />
+        <>
+          <AccordionDataTable
+            className="md:mt-2 mt-2 sm:hidden "
+            data={userUrls}
+            addAction
+            onDelete={handleDelete}
+            onEdit={handleOnPremiumWarning}
+            onStatusChange={handleOnStatusChange}
+          />
+          <DataTable
+            className="md:mt-2 mt-2 hidden sm:flex "
+            data={userUrls}
+            addAction
+            onDelete={handleDelete}
+            onEdit={handleOnPremiumWarning}
+            onStatusChange={handleOnStatusChange}
+          />
+        </>
       ) : (
         <p className="sm:text-lg text-sm text-gray-300 mb-6 text-center">
           You haven&apos;t created any short links yet. Start shortening your

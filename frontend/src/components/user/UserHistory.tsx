@@ -5,14 +5,14 @@ import { useAppDispatch, useTypeSelector } from "@/store/store";
 import {
   deleteShortUrl,
   getShortUrls,
-  setShortUrl,
   updateShortStatus,
 } from "@/store/auth/uri";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import Loading from "../common/Loading";
 export default function UserHistory() {
   const dispatch = useAppDispatch();
-  const { userUrls } = useTypeSelector((state) => state.uriRequest);
+  const { userUrls, isLoading } = useTypeSelector((state) => state.uriRequest);
   const { user } = useTypeSelector((state) => state.auth);
   const [lenthRef, setLengthState] = useState(0);
 
@@ -21,7 +21,6 @@ export default function UserHistory() {
       const fetchUriData = async () => {
         const result = await dispatch(getShortUrls());
         if (getShortUrls.fulfilled.match(result)) {
-          dispatch(setShortUrl(result.payload?.data?.shortLink));
           setLengthState(result.payload?.data?.totalCount);
         } else if (getShortUrls.rejected.match(result)) {
           toast.error("Errorin getting URLs. Please try again.");
@@ -30,6 +29,9 @@ export default function UserHistory() {
       fetchUriData();
     }
   }, [dispatch, user]);
+
+  if (isLoading) return <Loading />;
+
 
   const handleDelete = async (id: string) => {
     const result = await dispatch(deleteShortUrl(id));

@@ -19,7 +19,7 @@ import { PUBLIC_ACCESS_LIMIT } from "@/common/constant";
 
 export default function LinkShortner() {
   const dispatch = useAppDispatch();
-  const { shortUrl } = useTypeSelector((state) => state.uriRequest);
+  const { shortUrl, isLoading } = useTypeSelector((state) => state.uriRequest);
   const { user, publicAccessWithLimit } = useTypeSelector(
     (state) => state.auth
   );
@@ -78,6 +78,8 @@ export default function LinkShortner() {
     }, 3000);
   };
 
+  console.log("shortUrl", shortUrl);
+
   return (
     <div className="flex flex-col items-center justify-center space-y-1">
       <CommonDiv className="mt-2 ">
@@ -107,13 +109,15 @@ export default function LinkShortner() {
             />
             <div>
               <CustomButtonBlue
-                disabled={errors.longUrl?.message ? true : false}
+                disabled={errors.longUrl?.message || isLoading ? true : false}
                 type="submit"
                 className={`md:text-[14px] py-1.5 ${
                   errors.longUrl?.message
                     ? "cursor-not-allowed bg-blue-600 hover:bg-blue-600"
                     : ""
-                } `}
+                }
+                ${isLoading ? "cursor-not-allowed" : ""}     
+               `}
               >
                 Shorten Now
               </CustomButtonBlue>
@@ -131,7 +135,7 @@ export default function LinkShortner() {
               onClick={handleOnCopy}
               className="text-green-500 font-semibold flex items-center gap-x-1 cursor-pointer"
             >
-              Shortened URL: {frontendUri + shortUrl.toString()}
+              Shortened URL: {`${frontendUri}/${shortUrl}`}
               {copied === updateUri ? (
                 <TbCopyCheck className="md:size-5 font-semibold" />
               ) : (

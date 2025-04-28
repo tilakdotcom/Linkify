@@ -55,7 +55,7 @@ export default function HomePage() {
           </div>
         </section>
         //check
-        <PaginatedItems itemsPerPage={4} />
+        <PaginatedItems pageCount={6} />
       </Container>
     </>
   );

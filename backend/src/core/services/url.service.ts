@@ -218,7 +218,9 @@ export const getShortUriDataWithLimitService = async (
     },
   });
 
-  appAssert(shortLink.length > 0, NOT_FOUND, "No URI found or inactive");
+  console.log("short", shortLink);
+
+  appAssert(shortLink, NOT_FOUND, "No URI found or inactive");
 
   const totalCount = await prisma.shortLink.count({
     where: { userId },

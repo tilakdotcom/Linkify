@@ -1,29 +1,32 @@
+import { setCurrentPage } from "@/store/auth/uri";
+import { useAppDispatch, useTypeSelector } from "@/store/store";
+
 interface CustomPaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
-  currentPage: number;
 }
 
 const CustomPagination = ({
   totalPages,
   onPageChange,
-  currentPage,
 }: CustomPaginationProps) => {
+  const { currentPage } = useTypeSelector((state) => state.uriRequest);
+  const dispatch = useAppDispatch();
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   const handlePrevious = () => {
     if (currentPage > 1) {
+      dispatch(setCurrentPage(currentPage - 1));
       onPageChange(currentPage - 1);
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
+      dispatch(setCurrentPage(currentPage + 1));
       onPageChange(currentPage + 1);
     }
   };
-
-  console.log("curr page" , currentPage)
 
   return (
     <div className="flex justify-center space-x-1 text-sm sm:space-x-2 py-2 mt-6">
@@ -43,8 +46,8 @@ const CustomPagination = ({
           onClick={() => onPageChange(page)}
           className={`border border-gray-700 rounded-md hover:bg-gray-700 transition px-3 py-2 ${
             page === currentPage
-              ? ""
-              : ""
+              ? "bg-gray-700 text-white"
+              : "text-gray-300 hover:text-white"
           }`}
         >
           {page}

@@ -82,6 +82,8 @@ export default function UserHistory() {
       </div>
       {lenthRef > 0 ? (
         <>
+          <PaginatedItems pageCount={pageCount} />
+
           <AccordionDataTable
             className="md:mt-2 mt-2 sm:hidden "
             data={userUrls}
@@ -98,7 +100,6 @@ export default function UserHistory() {
             onEdit={handleOnPremiumWarning}
             onStatusChange={handleOnStatusChange}
           />
-          <PaginatedItems pageCount={pageCount} />
         </>
       ) : (
         <p className="sm:text-lg text-sm text-gray-300 mb-6 text-center">

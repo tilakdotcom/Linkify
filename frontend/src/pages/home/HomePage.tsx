@@ -2,7 +2,6 @@ import { PUBLIC_ACCESS_LIMIT } from "@/common/constant";
 import { tableDataForHome } from "@/common/data/DataForTable";
 import { DataTable } from "@/components/app-ui/DataTable";
 import LinkShortner from "@/components/app-ui/LinkShortner";
-import { PaginatedItems } from "@/components/app-ui/Pagination";
 import Container from "@/components/common/Container";
 import GradientText from "@/components/common/GradientText";
 import { useTypeSelector } from "@/store/store";
@@ -54,8 +53,6 @@ export default function HomePage() {
             <DataTable data={tableDataForHome} />
           </div>
         </section>
-        //check
-        <PaginatedItems pageCount={6} />
       </Container>
     </>
   );

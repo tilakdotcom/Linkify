@@ -11,18 +11,26 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import Loading from "../common/Loading";
 import { AccordionDataTable } from "../common/mobileData";
+import { PaginatedItems } from "../app-ui/Pagination";
 export default function UserHistory() {
   const dispatch = useAppDispatch();
   const { userUrls, isLoading } = useTypeSelector((state) => state.uriRequest);
   const { user } = useTypeSelector((state) => state.auth);
   const [lenthRef, setLengthState] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
 
   useEffect(() => {
     if (user != null) {
       const fetchUriData = async () => {
-        const result = await dispatch(getShortUrls());
+        const result = await dispatch(getShortUrls("1"));
         if (getShortUrls.fulfilled.match(result)) {
+          dispatch({
+            type: "SET_USER_URLS",
+            payload: result.payload?.data?.shortLink,
+          });
+
           setLengthState(result.payload?.data?.totalCount);
+          setPageCount(result.payload?.data?.totalPages);
         } else if (getShortUrls.rejected.match(result)) {
           toast.error("Errorin getting URLs. Please try again.");
         }
@@ -90,6 +98,7 @@ export default function UserHistory() {
             onEdit={handleOnPremiumWarning}
             onStatusChange={handleOnStatusChange}
           />
+          <PaginatedItems pageCount={pageCount} />
         </>
       ) : (
         <p className="sm:text-lg text-sm text-gray-300 mb-6 text-center">

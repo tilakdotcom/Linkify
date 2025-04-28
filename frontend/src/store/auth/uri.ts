@@ -46,19 +46,22 @@ export const shortenUrlForUser = createAsyncThunk(
 );
 
 // get short url data
-export const getShortUrls = createAsyncThunk("uri/getShortUrls", async () => {
-  try {
-    const response = await API.get(uriDataRequest);
-    return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message);
-      return;
-    } else {
-      throw new Error("Error fetching short URL data");
+export const getShortUrls = createAsyncThunk(
+  "uri/getShortUrls",
+  async ( page: string , thunkAPI) => {
+    try {
+      console.log("url bhai", uriDataRequest(page))
+      const response = await API.get(uriDataRequest(page));
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      } else {
+        return thunkAPI.rejectWithValue("error in getting urls");
+      }
     }
   }
-});
+);
 
 // get short url data for user
 export const getShortUrl = createAsyncThunk(

@@ -4,7 +4,7 @@ export const logoutUserRequest = "/auth/logout";
 export const getUserRequest = "/user";
 export const uriShortPublicRequest = "/uri/public";
 export const uriShortUserRequest = "/uri/user";
-export const uriDataRequest = "/uri";
+export const uriDataRequest = (page: string) => `/uri?page=${page}`;
 export const uriUserRedirectRequest = (short: string) => `/uri/${short}`;
 export const uriDeleteRequest = (short: string) => `/uri/remove/${short}`;
 export const uriUpdateRequest = (short: string) => `/uri/update/${short}`;

@@ -51,8 +51,8 @@ export default function HomePage() {
             </span>
           </div>
           <div className="">
-            <DataTable data={tableDataForHome} />
-            <AccordionDataTable data={tableDataForHome} />
+            <DataTable className="hidden sm:flex" data={tableDataForHome} />
+            <AccordionDataTable className="sm:hidden" data={tableDataForHome} />
           </div>
         </section>
       </Container>

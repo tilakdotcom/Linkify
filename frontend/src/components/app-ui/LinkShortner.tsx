@@ -96,7 +96,7 @@ export default function LinkShortner() {
                       <GoLink className="md:size-5 text-white/80" />
                       <Input
                         autoComplete="off"
-                        className={`bg-transparent hover:bg-transparent placeholder:text-sm text-sm text-white/80 focus:outline-none pl-2 py-1 rounded-full rounded-r-none md:w-sm w-full border-none focus:ring-0 focus:border-none  focus-visible:ring-0 `}
+                        className={`bg-transparent hover:bg-transparent sm:placeholder:text-sm sm:text-sm text-white/80 text-xs placeholder:text-xs focus:outline-none pl-2 py-1 rounded-full rounded-r-none md:w-sm w-full border-none focus:ring-0 focus:border-none  focus-visible:ring-0 `}
                         placeholder="Enter the link here"
                         {...field}
                       />
@@ -109,7 +109,7 @@ export default function LinkShortner() {
               <CustomButtonBlue
                 disabled={errors.longUrl?.message || isLoading ? true : false}
                 type="submit"
-                className={`md:text-[14px] py-1.5 ${
+                className={`md:text-[14px] text-xs py-1.5 ${
                   errors.longUrl?.message
                     ? "cursor-not-allowed bg-blue-600 hover:bg-blue-600"
                     : ""
@@ -117,7 +117,7 @@ export default function LinkShortner() {
                 ${isLoading ? "cursor-not-allowed" : ""}     
                `}
               >
-                Shorten Now
+                Shorten
               </CustomButtonBlue>
             </div>
           </form>
@@ -127,7 +127,7 @@ export default function LinkShortner() {
       <div className="text-red-500 text-xs">
         {errors.longUrl?.message && errors.longUrl.message}
         {!errors.longUrl?.message && <span>&nbsp;</span>}
-        <div className="text-white/80 text-sm -mt-1 ">
+        <div className="text-white/80 text-xs md:text-sm -mt-1 ">
           {shortUrl && (
             <span
               onClick={handleOnCopy}

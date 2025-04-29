@@ -52,24 +52,23 @@ export function AccordionDataTable({
       <Accordion type="multiple">
         {data.map((item) => (
           <AccordionItem key={item.shortLink} value={item.shortLink}>
-            <AccordionTrigger className="text-lg font-medium  bg-gray-800 p-3 rounded-t-md hover:bg-gray-900">
+            <AccordionTrigger className="md:text-lg font-medium  bg-gray-800 p-3 rounded-t-md hover:bg-gray-900 text-xs">
               {frontendUri + item.shortLink}
             </AccordionTrigger>
             <AccordionContent className="bg-gray-800 p-4 rounded-b-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Original Link:</span>
-                  <span className="text-sm">{item.longLink}</span>
-                </div>
-
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Clicks:</span>
-                  <span className="text-sm">{item.visits || 0}</span>
+                  <span className="text-xs sm:text-sm font-medium">Original Link:</span>
+                  <span className="text-xs sm:text-sm ">{item.longLink}</span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Status:</span>
+                  <span className="text-xs sm:text-sm  font-medium">Clicks:</span>
+                  <span className="text-xs sm:text-sm ">{item.visits || 0}</span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs sm:text-sm  font-medium">Status:</span>
                   <button
                     onClick={() =>
                       onStatusChange &&
@@ -86,8 +85,8 @@ export function AccordionDataTable({
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Date:</span>
-                  <span className="text-sm">{formatDate(item.createdAt)}</span>
+                  <span className="text-xs sm:text-sm  font-medium">Date:</span>
+                  <span className="text-xs sm:text-sm ">{formatDate(item.createdAt)}</span>
                 </div>
 
                 <div className="flex gap-x-2">

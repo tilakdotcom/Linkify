@@ -4,6 +4,7 @@ import { DataTable } from "@/components/app-ui/DataTable";
 import LinkShortner from "@/components/app-ui/LinkShortner";
 import Container from "@/components/common/Container";
 import GradientText from "@/components/common/GradientText";
+import { AccordionDataTable } from "@/components/common/mobileData";
 import { useTypeSelector } from "@/store/store";
 import { GoQuestion } from "react-icons/go";
 import { IoArrowDownSharp } from "react-icons/io5";
@@ -35,7 +36,7 @@ export default function HomePage() {
             You can create{" "}
             <span className="font-bold text-pink-600 text-[14px]">
               {" "}
-              0{currentLimit}{" "}
+              {currentLimit}{" "}
             </span>{" "}
             more links. Register Now to enjoy unlimited usages{" "}
             <GoQuestion title="These rules are important" />
@@ -51,6 +52,7 @@ export default function HomePage() {
           </div>
           <div className="">
             <DataTable data={tableDataForHome} />
+            <AccordionDataTable data={tableDataForHome} />
           </div>
         </section>
       </Container>

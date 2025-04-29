@@ -29,12 +29,12 @@ const CustomPagination = ({
   };
 
   return (
-    <div className="flex justify-center space-x-1 text-sm sm:space-x-2 py-2 mt-6">
+    <div className="flex justify-center space-x-1 text-[8px] sm:text-sm sm:space-x-2 py-2 mt-6">
       {/* Previous Button */}
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className="border border-gray-700 rounded-md hover:bg-gray-700 transition px-3 py-2 text-gray-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        className="border border-gray-700 rounded-md hover:bg-gray-700 transition px-3 py-2 text-gray-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed "
       >
         &lt; Prev
       </button>

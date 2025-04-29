@@ -10,13 +10,14 @@ export const tableDataForHome: ShortLink[] = [
     userId: "",
     ipAddress: "",
     userAgent: "",
+    visits: "550",
     updatedAt: "",
     expiresAt: null,
   },
   {
     shortLink: "linkedin",
     longLink: "https://www.linkedin.com/in/tilakdotcom/",
-    isActive: false,
+    isActive: true,
     createdAt: "2025-04-26T11:20:36.018Z",
     id: "2",
     userId: "",
@@ -24,6 +25,7 @@ export const tableDataForHome: ShortLink[] = [
     userAgent: "",
     updatedAt: "",
     expiresAt: null,
+    visits: "450",
   },
   {
     shortLink: "tilak",
@@ -36,6 +38,7 @@ export const tableDataForHome: ShortLink[] = [
     userAgent: "",
     updatedAt: "",
     expiresAt: null,
+    visits: "470",
   },
 ];
 

@@ -1,1 +1,1 @@
-export const PUBLIC_ACCESS_LIMIT = 7;
+export const PUBLIC_ACCESS_LIMIT = 50;

@@ -135,7 +135,7 @@ export default function LinkShortner() {
               items-center flex-col flex cursor-pointer"
             >
               <span> Shortened URL:</span>
-              {`${frontendUri}/${shortUrl}`}
+              {`${frontendUri}${shortUrl}`}
               {copied === updateUri ? (
                 <TbCopyCheck className="md:size-5 font-semibold" />
               ) : (

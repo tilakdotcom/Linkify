@@ -1,9 +1,14 @@
 import { useGoogleLogin } from "@react-oauth/google";
 
 export default function GoogleAuth() {
-  const googleResponse = async (authResult: object) => {
+  interface AuthResult {
+    code?: string;
+  }
+
+  const googleResponse = async (authResult: AuthResult) => {
     try {
       console.log("bhai response from google ", authResult);
+      console.log(authResult["code"]);
     } catch (error) {
       if (error instanceof Error) {
         console.log("error in Google Login", error.message);

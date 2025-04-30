@@ -17,6 +17,7 @@ import asyncHandler from "../../middlewares/asyncHandler.middleware";
 import {
   createUserService,
   loginUserService,
+  loginWithGoogleService,
   refreshTokenService,
 } from "../services/auth.service";
 import { validateFileImage } from "../../middlewares/file.middleware";
@@ -85,6 +86,9 @@ export const accessTokenRefresh = asyncHandler(async (req, res) => {
   });
 });
 
-export const LoginWithGoogle = asyncHandler(async(req, res)=>{
-  
-})
+export const loginWithGoogle = asyncHandler(async (req, res) => {
+  const { code } = req.query as unknown as { code: string };
+  const userAgent = req.headers["user-agent"];
+
+  await loginWithGoogleService({ code, userAgent });
+});

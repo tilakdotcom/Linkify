@@ -90,15 +90,17 @@ export const loginWithGoogle = asyncHandler(async (req, res) => {
   const { code } = req.query as unknown as { code: string };
   const userAgent = req.headers["user-agent"];
 
-  const { accessToken, refreshToken, user } = await loginWithGoogleService({
-    code,
-    userAgent,
-  });
+  const { accessToken, refreshToken, user, isNew } =
+    await loginWithGoogleService({
+      code,
+      userAgent,
+    });
   const cooki = setAuthCookies({ res, accessToken, refreshToken });
 
   return cooki.status(OK).json({
     message: "Logged in successfully",
     data: user,
     success: true,
+    isNew,
   });
 });

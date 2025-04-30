@@ -216,11 +216,16 @@ export const loginWithGoogleService = async ({
   });
 
   const { password, ...rest } = user;
+  let isNew = false;
+  if (password === null) {
+    isNew = true;
+  }
 
   return {
     user: rest,
     accessToken,
     refreshToken,
     updateSession,
+    isNew,
   };
 };

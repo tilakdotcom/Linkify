@@ -99,7 +99,6 @@ export const loginWithGoogleUser = createAsyncThunk(
         loginWithGoogleRequest(authResult.code as string)
       );
 
-      console.log("google auth response", response.data);
       return response.data;
     } catch (error) {
       if (error instanceof Error) {

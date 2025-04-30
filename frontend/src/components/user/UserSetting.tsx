@@ -4,6 +4,7 @@ import { logoutUser } from "@/store/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Container from "../common/Container";
+import { altImage } from "@/assets";
 
 const UserSetting = () => {
   const dispatch = useAppDispatch();
@@ -40,10 +41,10 @@ const UserSetting = () => {
             src={
               user?.avatar
                 ? user.avatar
-                : "https://static.vecteezy.com/system/resources/thumbnails/054/639/431/small/cat-wearing-a-yellow-jacket-and-blue-pants-is-walking-down-a-street-photo.jpg"
+                : altImage
             }
             alt="User Avatar"
-            className="w-28 h-28 md:w-36 md:h-36 rounded-full border border-gray-700 object-cover p-1"
+            className="w-28 h-28 md:w-36 md:h-36 rounded-full border border-gray-700 object-cover p-1 "
           />
           <div className="flex-1">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">

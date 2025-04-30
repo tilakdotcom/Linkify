@@ -20,6 +20,7 @@ import { useAppDispatch, useTypeSelector } from "@/store/store";
 import { registerUser } from "@/store/auth/authSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import GoogleAuth from "@/components/common/GoogleAuth";
 
 export default function SignupPage() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -72,6 +73,7 @@ export default function SignupPage() {
         <div className="flex flex-col justify-center items-center p-8 w-full">
           <h2 className="text-3xl font-semibold text-gray-100">Sign Up</h2>
           <p className="text-gray-300 mb-4 text-sm">Join us and get started!</p>
+          <GoogleAuth />
 
           <Form {...form}>
             <form

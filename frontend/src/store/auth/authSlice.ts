@@ -3,6 +3,7 @@ import {
   loginUserRequest,
   getUserRequest,
   logoutUserRequest,
+  loginWithGoogleRequest,
 } from "@/common/lib/EndPoint";
 import {
   initialStateProps,
@@ -84,6 +85,30 @@ export const logoutUser = createAsyncThunk("logoutUser/data", async () => {
     throw new Error("Authentication failed");
   }
 });
+
+interface AuthResult {
+  code?: string;
+}
+
+export const loginWithGoogleUser = createAsyncThunk(
+  "google/user",
+
+  async (authResult: AuthResult) => {
+    try {
+      const response = await API.get(
+        loginWithGoogleRequest(authResult.code as string)
+      );
+
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error("failed to login with google");
+      }
+    }
+  }
+);
 
 const initialState: initialStateProps = {
   isAuthenticated: false,
@@ -180,12 +205,34 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || "failled to logout user";
+      })
+      .addCase(loginWithGoogleUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginWithGoogleUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        // console.log("action", action.payload.data);
+        state.user = action.payload.data;
+        localStorage.setItem("user", JSON.stringify(state.user));
+        localStorage.removeItem("publicAccessWithLimit");
+      })
+      .addCase(loginWithGoogleUser.rejected, (state, action) => {
+        console.log("action at error", action);
+        state.isLoading = false;
+        state.user = null;
+        localStorage.setItem("user", JSON.stringify(state.user));
+        state.error = action.error.message || "failled to login user";
       });
   },
 });
 
-export const { setAuthenticated, setUser, setPublicAccessWithLimit, setActivePage } =
-  authSlice.actions;
+export const {
+  setAuthenticated,
+  setUser,
+  setPublicAccessWithLimit,
+  setActivePage,
+} = authSlice.actions;
 
 const authReduser = authSlice.reducer;
 

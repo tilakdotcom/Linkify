@@ -9,3 +9,5 @@ export const uriUserRedirectRequest = (short: string) => `/uri/${short}`;
 export const uriDeleteRequest = (short: string) => `/uri/remove/${short}`;
 export const uriUpdateRequest = (short: string) => `/uri/update/${short}`;
 export const uriUpdateStatusRequest = (short: string) => `/uri/status/${short}`;
+
+export const loginWithGoogleRequest = (code: string) => `/auth/google-login?code=${code}`;

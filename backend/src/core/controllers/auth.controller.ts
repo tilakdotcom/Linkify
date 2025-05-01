@@ -17,6 +17,7 @@ import asyncHandler from "../../middlewares/asyncHandler.middleware";
 import {
   createUserService,
   loginUserService,
+  loginWithGoogleService,
   refreshTokenService,
 } from "../services/auth.service";
 import { validateFileImage } from "../../middlewares/file.middleware";
@@ -82,5 +83,24 @@ export const accessTokenRefresh = asyncHandler(async (req, res) => {
   return setAccessTokenCookie({ res, accessToken }).status(OK).json({
     message: "Access token refreshed successfully",
     success: true,
+  });
+});
+
+export const loginWithGoogle = asyncHandler(async (req, res) => {
+  const { code } = req.query as unknown as { code: string };
+  const userAgent = req.headers["user-agent"];
+
+  const { accessToken, refreshToken, user, isNew } =
+    await loginWithGoogleService({
+      code,
+      userAgent,
+    });
+  const cooki = setAuthCookies({ res, accessToken, refreshToken });
+
+  return cooki.status(OK).json({
+    message: "Logged in successfully",
+    data: user,
+    success: true,
+    isNew,
   });
 });

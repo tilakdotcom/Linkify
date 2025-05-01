@@ -11,6 +11,7 @@ import { CheckAuth } from "./layout/CheckAuth";
 import UserPage from "./pages/user/UserPage";
 import RedirectPage from "./pages/common/GetLinkPage";
 import NotFound from "./pages/404/NotFoundPage";
+import GoogleAuth from "./components/common/GoogleAuth";
 
 function App() {
   const { isAuthenticated, isLoading, user } = useTypeSelector(
@@ -47,7 +48,8 @@ function App() {
         </Route>
 
         <Route path="/u/:short" element={<RedirectPage />} />
-        <Route path="*" element={<NotFound />} />``
+        <Route path="*" element={<NotFound />} />
+        <Route path="/google" element={<GoogleAuth />} />
       </Routes>
     </>
   );

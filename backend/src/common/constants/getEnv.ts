@@ -24,6 +24,17 @@ export const CLOUDINARY_API_NAME= getEnv("CLOUDINARY_API_NAME");
 export const CLOUDINARY_API_KEY= getEnv("CLOUDINARY_API_KEY");
 export const CLOUDINARY_API_SECRET= getEnv("CLOUDINARY_API_SECRET");
 
+//google-Login
+export const CLIENT_ID = getEnv("VITE_CLIENT_ID") 
+export const PROJECT_ID = getEnv("VITE_PROJECT_ID")
+export const AUTH_URI = getEnv("VITE_AUTH_URI")
+export const TOKEN_URI = getEnv("VITE_TOKEN_URI")
+export const AUTH_PROVIDER = getEnv("VITE_AUTH_PROVIDER")
+export const CLIENT_SECRET = getEnv("VITE_CLIENT_SECRET")
+export const REDIRECT_URI = getEnv("VITE_REDIRECT_URI")
+export const JAVASCRIPT_URI = getEnv("VITE_JAVASCRIPT_URI")
+
+
 
 
 
